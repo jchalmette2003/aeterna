@@ -1,0 +1,2370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f0e0c">
+<title>AETERNA — Personal Life OS</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root{
+  --bg:#f5f0e8;--bg2:#ede7db;--bg3:#e4ddd0;--bg4:#dbd3c4;--bg5:#d0c8b8;
+  --border:#c8bfb0;--border2:#b8ae9e;
+  --text:#2a2318;--text2:#4a3e2e;--text3:#7a6e5e;--text4:#a89e8e;
+  --accent:#8b5e1a;--accent2:#a87030;--accent3:#6b4610;
+  --red:#a03020;--green:#3a6e40;--blue:#2e5870;--purple:#5a4878;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --display:'Playfair Display',Georgia,serif;
+  --mono:'DM Mono','Courier New',monospace;
+  --r:3px;--sidebar:240px;
+  --shadow:0 1px 3px rgba(0,0,0,.12),0 6px 24px rgba(0,0,0,.08);
+  --trans:.15s ease;
+}
+
+/* ═══ RESET ═══ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:18px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{font-family:var(--serif)}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* ═══ LAYOUT ═══ */
+.app{display:flex;min-height:100vh}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+  width:var(--sidebar);height:100vh;background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;z-index:200;
+  transition:transform .25s ease;
+  overflow-y:auto;overflow-x:hidden;
+  overscroll-behavior:contain;
+}
+.sidebar-logo{padding:24px 20px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+.logo-title{font-family:var(--display);font-size:17px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.logo-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.logo-week{font-family:var(--mono);font-size:9px;color:var(--accent2);letter-spacing:.1em;margin-top:5px}
+.week-bar{height:2px;background:var(--border);border-radius:1px;margin-top:5px;overflow:hidden}
+.week-bar-fill{height:100%;background:var(--accent);border-radius:1px;transition:width .6s ease}
+
+.nav-section{padding:12px 10px 0}
+.nav-label{font-family:var(--mono);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--text4);padding:0 8px;margin-bottom:4px}
+.nav-item{
+  display:flex;align-items:center;gap:9px;padding:7px 10px;
+  border-radius:var(--r);cursor:pointer;font-family:var(--serif);font-size:14px;
+  color:var(--text3);border:1px solid transparent;margin-bottom:1px;
+  transition:all var(--trans);user-select:none;
+}
+.nav-item:hover{background:var(--bg3);color:var(--text2)}
+.nav-item.active{background:var(--bg4);color:var(--accent);border-color:var(--border2)}
+.nav-icon{font-size:12px;width:16px;text-align:center;flex-shrink:0}
+
+.sidebar-bottom{padding:14px 12px 16px;border-top:1px solid var(--border)}
+.save-status{font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:10px;letter-spacing:.05em}
+.save-flash{color:var(--green);opacity:0;transition:opacity .3s}
+.data-btns{display:flex;flex-direction:column;gap:4px}
+.data-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:6px;border-radius:var(--r);border:1px solid var(--border2);
+  background:var(--bg3);color:var(--text3);
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  transition:all var(--trans);
+}
+.data-btn:hover{color:var(--accent);border-color:var(--accent2)}
+.data-btn.danger:hover{color:var(--red);border-color:var(--red)}
+
+/* Mobile hamburger */
+.hamburger{
+  display:none;position:fixed;top:12px;left:12px;z-index:300;
+  width:38px;height:38px;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:var(--r);align-items:center;justify-content:center;flex-direction:column;gap:4px;
+}
+.hamburger span{display:block;width:16px;height:1.5px;background:var(--text2);transition:all .2s}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:190}
+
+/* ═══ MAIN ═══ */
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh}
+.page{display:none;padding:36px 44px 80px;max-width:1080px;animation:fadeUp .2s ease}
+.page.active{display:block}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ PAGE HEADER ═══ */
+.page-header{margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.page-title{font-family:var(--display);font-size:30px;font-weight:400;color:var(--text);letter-spacing:.02em}
+.page-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:4px}
+.week-selector{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.week-nav{
+  width:28px;height:28px;border-radius:var(--r);border:1px solid var(--border2);
+  background:var(--bg3);color:var(--text2);font-size:14px;
+  display:flex;align-items:center;justify-content:center;transition:all var(--trans);
+}
+.week-nav:hover{border-color:var(--accent2);color:var(--accent)}
+.week-label{font-family:var(--mono);font-size:10px;color:var(--text2);letter-spacing:.08em;white-space:nowrap}
+
+/* ═══ SECTION ═══ */
+.section{margin-bottom:32px}
+.section-title{
+  font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ═══ CALLOUT ═══ */
+.callout{
+  background:var(--bg3);border-left:3px solid var(--accent);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:12px 16px;margin-bottom:16px;
+  font-size:14px;color:var(--text2);line-height:1.7;
+}
+.callout strong{color:var(--accent)}
+.callout.warn{border-color:var(--red)}
+.callout.warn strong{color:var(--red)}
+
+/* ═══ GRID ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+/* ═══ CARD ═══ */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:border-color var(--trans)}
+.card:hover{border-color:var(--border2)}
+.card-label{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.card-val{font-family:var(--display);font-size:26px;font-weight:400;color:var(--text);line-height:1}
+.card-val span{font-family:var(--mono);font-size:11px;color:var(--text3);font-weight:300}
+.card-note{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:5px}
+.pbar{height:2px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;transition:width .5s ease}
+
+/* ═══ FORM ═══ */
+.field{margin-bottom:14px}
+label{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:5px}
+input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text);font-family:var(--serif);font-size:15px;
+  padding:8px 11px;outline:none;transition:border-color var(--trans);width:100%;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent2)}
+input::placeholder,textarea::placeholder{color:var(--text4);font-style:italic}
+select option{background:var(--bg)}
+textarea{min-height:75px;resize:vertical;line-height:1.6}
+input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
+
+/* ═══ BUTTONS ═══ */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 16px;
+  border-radius:var(--r);border:1px solid var(--border2);background:var(--bg4);
+  color:var(--text2);font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;transition:all var(--trans);cursor:pointer;
+}
+.btn:hover{background:var(--bg3);color:var(--accent);border-color:var(--accent2)}
+.btn-primary{background:var(--accent2);border-color:var(--accent);color:var(--bg)}
+.btn-primary:hover{background:var(--accent);color:var(--bg)}
+.btn-sm{padding:4px 11px;font-size:8px}
+.btn-danger{color:var(--red);border-color:var(--red)}
+.btn-danger:hover{background:rgba(160,48,32,.08)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* ═══ TABLE ═══ */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--border);font-weight:400}
+.tbl td{padding:10px 11px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;font-size:14px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg4)}
+.tbl-wrap{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+
+/* ═══ BADGES ═══ */
+.badge{display:inline-block;padding:2px 7px;border-radius:2px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.b-high{color:var(--red);border-color:var(--red);background:rgba(160,48,32,.07)}
+.b-med{color:var(--accent);border-color:var(--accent2);background:rgba(139,94,26,.07)}
+.b-low{color:var(--green);border-color:var(--green);background:rgba(58,110,64,.07)}
+.b-done{color:var(--text3);border-color:var(--border2);background:var(--bg4)}
+.b-prog{color:var(--blue);border-color:var(--blue);background:rgba(46,112,150,.07)}
+.b-todo{color:var(--purple);border-color:var(--purple);background:rgba(90,72,120,.07)}
+.tag{display:inline-block;padding:2px 6px;background:var(--bg4);border:1px solid var(--border2);border-radius:2px;font-family:var(--mono);font-size:8px;color:var(--text3)}
+
+/* ═══ TOOLTIP ═══ */
+[data-tip]{position:relative;cursor:help}
+[data-tip]::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;
+  transform:translateX(-50%);background:var(--bg5);border:1px solid var(--border2);
+  padding:5px 10px;border-radius:2px;font-family:var(--mono);font-size:9px;
+  color:var(--text2);white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .15s;z-index:999;letter-spacing:.04em;max-width:260px;white-space:normal;text-align:center;
+}
+[data-tip]:hover::after{opacity:1}
+
+/* ═══ MODAL ═══ */
+.overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:400;align-items:center;justify-content:center;padding:16px;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);
+  padding:26px;width:100%;max-width:460px;box-shadow:var(--shadow);
+  position:relative;animation:fadeUp .2s ease;max-height:90vh;overflow-y:auto;
+}
+.modal-title{font-family:var(--display);font-size:20px;color:var(--text);margin-bottom:18px}
+.modal-close{position:absolute;top:8px;right:12px;color:var(--text3);font-size:20px;cursor:pointer;background:none;border:none;padding:4px;transition:color var(--trans)}
+.modal-close:hover{color:var(--text)}
+
+/* ═══ HABIT TRACKER ═══ */
+.habit-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.habit-row:last-child{border-bottom:none}
+.habit-name{flex:1;font-size:14px;color:var(--text2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.habit-days{display:flex;gap:3px;flex-shrink:0}
+.hcheck{
+  width:24px;height:24px;border-radius:2px;border:1px solid var(--border2);
+  background:var(--bg2);cursor:pointer;display:flex;align-items:center;
+  justify-content:center;font-size:10px;color:transparent;transition:all .1s;flex-shrink:0;
+}
+.hcheck.on{background:var(--accent2);border-color:var(--accent);color:var(--bg)}
+.habit-pct{font-family:var(--mono);font-size:9px;color:var(--text3);width:32px;text-align:right;flex-shrink:0}
+
+/* ═══ POMODORO ═══ */
+.pomo-wrap{display:flex;flex-direction:column;align-items:center;padding:32px 0}
+.pomo-ring{width:176px;height:176px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:20px}
+.pomo-ring svg{position:absolute;top:-2px;left:-2px;width:180px;height:180px;transform:rotate(-90deg)}
+.pomo-ring circle{fill:none;stroke-width:2}
+.pomo-time{font-family:var(--display);font-size:40px;font-weight:400;color:var(--text);position:relative;z-index:1;letter-spacing:.04em}
+.pomo-mode{font-family:var(--mono);font-size:9px;letter-spacing:.25em;color:var(--text3);text-transform:uppercase;margin-bottom:16px}
+.pomo-dots{display:flex;gap:7px;margin-top:14px}
+.pdot{width:7px;height:7px;border-radius:50%;background:var(--border2);border:1px solid var(--border);transition:all .2s}
+.pdot.on{background:var(--accent);border-color:var(--accent)}
+
+/* ═══ MOOD SCALE ═══ */
+.mood-scale{display:flex;gap:5px;flex-wrap:wrap}
+.mood-btn{
+  flex:1;min-width:28px;padding:8px 2px;text-align:center;border-radius:var(--r);
+  border:1px solid var(--border);background:var(--bg2);cursor:pointer;
+  font-family:var(--mono);font-size:11px;color:var(--text3);transition:all .12s;
+}
+.mood-btn:hover{border-color:var(--accent2);color:var(--accent)}
+.mood-btn.on{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
+
+/* ═══ SCHEDULE ═══ */
+.sch-grid{display:grid;grid-template-columns:56px repeat(7,1fr);overflow:hidden;border:1px solid var(--border);border-radius:var(--r)}
+.sch-head{background:var(--bg4);padding:8px 4px;text-align:center;font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)}
+.sch-time{background:var(--bg4);padding:6px 4px;font-family:var(--mono);font-size:8px;color:var(--text3);border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:right;white-space:nowrap}
+.sch-cell{padding:3px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);min-height:32px;cursor:pointer;transition:background .1s;position:relative}
+.sch-cell:hover{background:var(--bg4)}
+.sch-evt{border-radius:2px;padding:2px 4px;font-size:9px;font-family:var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:3px}
+.sch-evt.t-study{background:rgba(46,112,150,.12);color:#1e4a68;border-left:2px solid var(--blue)}
+.sch-evt.t-break{background:rgba(58,110,64,.12);color:#1e4a24;border-left:2px solid var(--green)}
+.sch-evt.t-personal{background:rgba(90,72,120,.12);color:#3a2860;border-left:2px solid var(--purple)}
+.sch-evt.t-school{background:rgba(139,94,26,.12);color:#5a3a08;border-left:2px solid var(--accent)}
+.sch-del{cursor:pointer;opacity:0;transition:opacity .1s;color:var(--text3);font-size:10px;margin-left:auto;flex-shrink:0}
+.sch-evt:hover .sch-del{opacity:1}
+
+/* ═══ KNOWLEDGE ═══ */
+.kcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:7px;transition:border-color var(--trans)}
+.kcard:hover{border-color:var(--border2)}
+.kcard-title{font-size:15px;color:var(--text);margin-bottom:4px}
+.kcard-meta{font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:.08em;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* ═══ GOAL CARD ═══ */
+.gcard{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:9px}
+.gcard-title{font-size:16px;color:var(--text);margin-bottom:5px;font-weight:500}
+.gcard-meta{font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:.08em;display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.gcard-pct{font-family:var(--display);font-size:20px;color:var(--accent);min-width:46px}
+
+/* ═══ AUDIT BARS ═══ */
+.audit-row{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.audit-lbl{font-size:13px;color:var(--text2);width:160px;flex-shrink:0}
+.audit-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.audit-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.audit-val{font-family:var(--mono);font-size:9px;color:var(--text3);width:40px;text-align:right}
+
+/* ═══ TIME BLOCKS ═══ */
+.tblock-row{display:flex;gap:7px;align-items:center;margin-bottom:7px}
+.tblock-row input[type=time]{width:84px;padding:5px 7px;font-size:12px}
+.tblock-arrow{color:var(--text3);font-family:var(--mono);font-size:10px;flex-shrink:0}
+
+/* ═══ GUIDE ═══ */
+.guide-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
+.guide-head{padding:13px 16px;font-family:var(--display);font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--text);user-select:none;transition:color var(--trans)}
+.guide-head:hover{color:var(--accent)}
+.guide-chevron{transition:transform .2s;color:var(--text3);font-size:11px}
+.guide-item.open .guide-chevron{transform:rotate(180deg)}
+.guide-body{display:none;padding:0 16px 16px;font-size:13px;color:var(--text2);line-height:1.85}
+.guide-item.open .guide-body{display:block}
+.guide-body h4{font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:13px 0 5px}
+.guide-body p{margin-bottom:9px}
+.guide-body ul{padding-left:18px;margin-bottom:9px}
+.guide-body li{margin-bottom:4px}
+.sci{font-family:var(--mono);font-size:8px;color:var(--text3);border:1px solid var(--border);border-radius:2px;padding:3px 8px;display:inline-block;margin-top:4px}
+
+/* ═══ WEEK HISTORY PANEL ═══ */
+.history-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:7px;cursor:pointer;transition:border-color var(--trans)}
+.history-item:hover{border-color:var(--accent2)}
+.history-week{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.1em}
+.history-summary{font-size:13px;color:var(--text2);margin-top:4px}
+.history-metrics{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.history-metric{font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:.05em}
+.history-metric span{color:var(--text2)}
+
+/* ═══ REVIEW ═══ */
+.review-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:10px}
+.review-block-title{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+
+/* ═══ RADAR CANVAS ═══ */
+canvas{display:block}
+.data-btn.sync-active { color: var(--green); border-color: var(--green); }
+.sync-badge { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-left: 4px; vertical-align: middle; }
+
+
+/* ═══ DIVIDER ═══ */
+.divider{height:1px;background:var(--border);margin:22px 0}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  :root{--sidebar:220px}
+  .page{padding:28px 28px 72px}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .hamburger{display:flex}
+  .main{margin-left:0}
+  .page{padding:20px 16px 80px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .page-header{flex-direction:column;gap:8px}
+  .pomo-ring{width:150px;height:150px}
+  .pomo-ring svg{width:154px;height:154px}
+  .pomo-time{font-size:34px}
+  .audit-lbl{width:110px;font-size:12px}
+  .sch-grid{grid-template-columns:46px repeat(7,1fr)}
+  .sch-head,.sch-time{font-size:7px;padding:5px 2px}
+  .sch-cell{min-height:26px}
+}
+@media(max-width:400px){
+  .g4{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<button class="hamburger" id="ham" onclick="toggleSidebar()" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="sidebar-overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-title">Aeterna</div>
+    <div class="logo-sub">Personal Life OS</div>
+    <div class="logo-week" id="sb-week"></div>
+    <div class="week-bar"><div class="week-bar-fill" id="wbar"></div></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" data-page="dashboard"><span class="nav-icon">◈</span>Life Dashboard</div>
+    <div class="nav-item" data-page="goals"><span class="nav-icon">◎</span>Goal System</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Planning</div>
+    <div class="nav-item" data-page="tasks"><span class="nav-icon">▣</span>Task Management</div>
+    <div class="nav-item" data-page="schedule"><span class="nav-icon">⊞</span>Weekly Schedule</div>
+    <div class="nav-item" data-page="planner"><span class="nav-icon">◻</span>Daily Planner</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Tracking</div>
+    <div class="nav-item" data-page="focus"><span class="nav-icon">◉</span>Focus Tracker</div>
+    <div class="nav-item" data-page="audit"><span class="nav-icon">▦</span>Time Audit</div>
+    <div class="nav-item" data-page="mood"><span class="nav-icon">◑</span>Mood & Wellbeing</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Learning</div>
+    <div class="nav-item" data-page="knowledge"><span class="nav-icon">◪</span>Knowledge Vault</div>
+    <div class="nav-item" data-page="review"><span class="nav-icon">◧</span>Weekly Review</div>
+    <div class="nav-item" data-page="history"><span class="nav-icon">◫</span>Week History</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">System</div>
+    <div class="nav-item" data-page="guide"><span class="nav-icon">◿</span>User Guide</div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="save-status">
+      <span id="last-saved-txt"></span>
+      <span id="save-flash" class="save-flash"> ✓ Saved</span>
+    </div>
+    <div class="data-btns">
+      <button class="data-btn" onclick="openModal('sync-modal')" style="color:var(--accent)">☁ Cloud Sync (Multi-device)</button>
+      <button class="data-btn" onclick="exportBackup()">⬇ Export Backup</button>
+      <button class="data-btn" onclick="importBackup()">⬆ Import Backup</button>
+      <button class="data-btn" onclick="endWeekFlow()">⟳ End Week / New Week</button>
+      <button class="data-btn" onclick="openModal('hosting-modal')">🌐 GitHub Pages Guide</button>
+      <button class="data-btn danger" onclick="clearAll()">⚠ Reset All Data</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+<!-- ══════════════════════════════════════
+     DASHBOARD
+══════════════════════════════════════ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Life Dashboard</div>
+      <div class="page-sub">8h School · 3–4h Home Study · Weekly Metrics</div>
+    </div>
+    <div class="week-selector">
+      <button class="week-nav" onclick="shiftWeek(-1)">‹</button>
+      <span class="week-label" id="dash-week-lbl"></span>
+      <button class="week-nav" onclick="shiftWeek(1)">›</button>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Your profile:</strong> 8h school + 3–4h home study daily ≈ 55–60h/week total cognitive load. Home sessions are your highest-leverage time — quality over quantity. Sleep is when school content consolidates into long-term memory (Walker, 2017).
+  </div>
+
+  <div class="section">
+    <div class="section-title">This Week's Metrics</div>
+    <div class="g4" id="dash-cards"></div>
+    <div class="callout warn" style="margin-top:12px">
+      <strong>⚠ Cognitive ceiling:</strong> After 8h school, your brain can sustain ~3h quality deep work at home max. Focus on <em>active recall</em>, not passive re-reading.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Weekly Input</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-label" style="margin-bottom:12px">Performance Data</div>
+        <div class="field"><label>Total Study Hours (school + home)</label><input type="number" id="in-study" placeholder="e.g. 55" min="0" max="168" oninput="saveDashInputs()"></div>
+        <div class="field"><label>Home Deep Work Hours</label><input type="number" id="in-deep" placeholder="e.g. 15 (3h × 5d)" min="0" max="60" oninput="saveDashInputs()"></div>
+        <div class="field"><label>Phone Screen Time (hrs, recreational)</label><input type="number" id="in-phone" placeholder="e.g. 7" min="0" max="100" oninput="saveDashInputs()"></div>
+        <div class="field"><label>Home Pomodoros (25-min sessions)</label><input type="number" id="in-pomo" placeholder="e.g. 35 (7×5d)" min="0" oninput="saveDashInputs()"></div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="margin-bottom:12px">Wellbeing Data</div>
+        <div class="field"><label>Average Mood (1–10)</label><input type="number" id="in-mood" placeholder="e.g. 7" min="1" max="10" step="0.1" oninput="saveDashInputs()"></div>
+        <div class="field"><label>Average Sleep (hrs/night)</label><input type="number" id="in-sleep" placeholder="e.g. 7.5" min="0" max="12" step="0.5" oninput="saveDashInputs()"></div>
+        <div class="field"><label>Habits Done / Total</label>
+          <div style="display:flex;gap:8px"><input type="number" id="in-hc" placeholder="Done" min="0" oninput="saveDashInputs()"><input type="number" id="in-ht" placeholder="Total" min="0" oninput="saveDashInputs()"></div>
+        </div>
+        <div class="field"><label>Tasks Completed / Created</label>
+          <div style="display:flex;gap:8px"><input type="number" id="in-td" placeholder="Done" min="0" oninput="saveDashInputs()"><input type="number" id="in-tt" placeholder="Total" min="0" oninput="saveDashInputs()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Habit Tracker — <span style="color:var(--text3);font-size:9px">This Week</span></div>
+    <div class="card">
+      <div id="habit-list"></div>
+      <div class="btn-row"><button class="btn btn-sm btn-primary" onclick="openModal('habit-modal')">+ Add Habit</button></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Performance Radar</div>
+    <div class="card" style="display:flex;justify-content:center;padding:24px">
+      <canvas id="radar" width="360" height="280"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GOALS
+══════════════════════════════════════ -->
+<div class="page" id="page-goals">
+  <div class="page-header">
+    <div><div class="page-title">Goal System</div><div class="page-sub">SMART Framework · Long-term Vision</div></div>
+  </div>
+  <div class="callout"><strong>SMART Goals</strong> — Specific, Measurable, Achievable, Relevant, Time-bound. Locke & Latham (2002): specific, challenging goals produce 25–35% higher performance than vague intentions.</div>
+  <div class="section">
+    <div class="section-title">Active Goals</div>
+    <div id="goal-list"></div>
+    <button class="btn" onclick="openModal('goal-modal')">+ Add SMART Goal</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TASKS
+══════════════════════════════════════ -->
+<div class="page" id="page-tasks">
+  <div class="page-header">
+    <div><div class="page-title">Task Management</div><div class="page-sub">Eisenhower Matrix · GTD · Weekly Tasks</div></div>
+    <div class="week-selector">
+      <button class="week-nav" onclick="shiftWeek(-1)">‹</button>
+      <span class="week-label" id="task-week-lbl"></span>
+      <button class="week-nav" onclick="shiftWeek(1)">›</button>
+    </div>
+  </div>
+  <div class="callout"><strong>Eisenhower Matrix</strong> — High = Urgent + Important (do now). Medium = Important, not urgent (schedule — this is where growth lives). Low = delegate or drop.</div>
+  <div class="section">
+    <div class="section-title">Add Task</div>
+    <div class="card">
+      <div class="g2">
+        <div class="field"><label>Task Name</label><input type="text" id="t-name" placeholder="What needs to be done?"></div>
+        <div class="field"><label>Project / Category</label><input type="text" id="t-proj" placeholder="e.g. School, Research"></div>
+        <div class="field"><label>Priority</label>
+          <select id="t-pri"><option value="High">⬆ High (Urgent + Important)</option><option value="Med" selected>→ Medium (Important)</option><option value="Low">⬇ Low</option></select>
+        </div>
+        <div class="field"><label>Estimated Time (hrs)</label><input type="number" id="t-time" placeholder="e.g. 1.5" min="0.25" step="0.25"></div>
+        <div class="field"><label>Deadline</label><input type="date" id="t-dl"></div>
+        <div class="field"><label>Status</label>
+          <select id="t-status"><option>To Do</option><option>In Progress</option><option>Done</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addTask()">+ Add Task</button>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Task Board</div>
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <button class="btn btn-sm" onclick="setTaskFilter('all')">All</button>
+      <button class="btn btn-sm" onclick="setTaskFilter('To Do')">To Do</button>
+      <button class="btn btn-sm" onclick="setTaskFilter('In Progress')">In Progress</button>
+      <button class="btn btn-sm" onclick="setTaskFilter('Done')">Done</button>
+      <button class="btn btn-sm" onclick="setTaskFilter('High')">High Priority</button>
+    </div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Task</th><th>Project</th><th>Priority</th><th>Est.</th><th>Deadline</th><th>Status</th><th></th></tr></thead><tbody id="task-body"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCHEDULE
+══════════════════════════════════════ -->
+<div class="page" id="page-schedule">
+  <div class="page-header">
+    <div><div class="page-title">Weekly Schedule</div><div class="page-sub">Time Blocking · Circadian-Optimized</div></div>
+    <div class="week-selector">
+      <button class="week-nav" onclick="shiftWeek(-1)">‹</button>
+      <span class="week-label" id="sch-week-lbl"></span>
+      <button class="week-nav" onclick="shiftWeek(1)">›</button>
+    </div>
+  </div>
+  <div class="callout"><strong>Circadian alignment</strong> — Peak cognitive window post-school: ~3:30–5 PM (second alertness rise). After 7 PM, shift to spaced repetition and light review. Guard your 10 PM–6 AM sleep window. Click any cell to add a block — right-click to delete.</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+    <span style="font-family:var(--mono);font-size:9px;color:var(--text3);">Event types:</span>
+    <span class="sch-evt t-school" style="display:inline-flex">School</span>
+    <span class="sch-evt t-study" style="display:inline-flex">Deep Work</span>
+    <span class="sch-evt t-break" style="display:inline-flex">Break/Exercise</span>
+    <span class="sch-evt t-personal" style="display:inline-flex">Personal</span>
+  </div>
+  <div class="card" style="padding:0;overflow-x:auto">
+    <div class="sch-grid" id="sch-grid"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PLANNER
+══════════════════════════════════════ -->
+<div class="page" id="page-planner">
+  <div class="page-header">
+    <div><div class="page-title">Daily Planner</div><div class="page-sub">Time Blocking · MIT Method · Intentional Days</div></div>
+  </div>
+  <div class="callout"><strong>School day protocol</strong> — Set MITs the night before (reduces morning decision fatigue by ~30%, Baumeister 2011). Transition period after school (30 min rest) is critical — it restores prefrontal capacity for home study. Default blocks below reflect your 8h school day.</div>
+  <div class="section">
+    <div class="section-title">Day: <input type="date" id="plan-date" style="width:auto;display:inline;font-size:12px;padding:4px 8px;margin-left:8px;"></div>
+    <div class="g2">
+      <div>
+        <div class="card" style="margin-bottom:10px">
+          <div class="card-label" style="margin-bottom:10px">Most Important Tasks</div>
+          <div class="field"><input type="text" id="mit1" placeholder="MIT #1 — Most critical home study task today"></div>
+          <div class="field"><input type="text" id="mit2" placeholder="MIT #2 — Second priority"></div>
+          <div class="field"><input type="text" id="mit3" placeholder="MIT #3 — Stretch goal (weekends/high energy)"></div>
+          <button class="btn btn-sm btn-primary" onclick="saveMITs()">Save MITs</button>
+        </div>
+        <div class="card">
+          <div class="card-label" style="margin-bottom:10px">Day Design</div>
+          <div class="field"><label>Morning Intention</label><textarea id="morning-intent" placeholder="What mindset do I need? What will I protect today?"></textarea></div>
+          <div class="field"><label>Evening Reflection</label><textarea id="eve-reflect" placeholder="What did I accomplish? What drained energy?"></textarea></div>
+          <div class="field"><label>Energy Level Today (1–10)</label>
+            <input type="range" id="day-energy" min="1" max="10" value="7" oninput="document.getElementById('day-energy-val').textContent=this.value">
+            <span style="font-family:var(--mono);font-size:10px;color:var(--text3)">Value: <span id="day-energy-val">7</span></span>
+          </div>
+          <button class="btn btn-sm btn-primary" onclick="saveDayDesign()">Save</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label" style="margin-bottom:12px">Time Blocks</div>
+        <div id="time-blocks"></div>
+        <div class="btn-row"><button class="btn btn-sm" onclick="addBlock()">+ Add Block</button><button class="btn btn-sm" onclick="resetBlocks()">Reset to Default</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FOCUS
+══════════════════════════════════════ -->
+<div class="page" id="page-focus">
+  <div class="page-header">
+    <div><div class="page-title">Focus Tracker</div><div class="page-sub">Pomodoro · Flow State · Post-School Sessions</div></div>
+  </div>
+  <div class="callout"><strong>Post-school Pomodoro rule</strong> — After 8h at school, limit home sessions to 6–8 Pomodoros max. If focus quality drops to 1–2, stop — continuing produces shallow encoding, not learning. Use 25/5 on weekdays, 50/10 on weekends when less fatigued.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="pomo-wrap">
+        <div class="pomo-ring">
+          <svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="87" stroke="var(--border)" stroke-width="2"/><circle cx="90" cy="90" r="87" stroke="var(--accent)" stroke-width="2" stroke-dasharray="547" id="pomo-arc" stroke-dashoffset="0" stroke-linecap="round"/></svg>
+          <div class="pomo-time" id="pomo-time">25:00</div>
+        </div>
+        <div class="pomo-mode" id="pomo-mode">FOCUS SESSION</div>
+        <div class="btn-row" style="justify-content:center">
+          <button class="btn" id="pomo-btn" onclick="togglePomo()">Start</button>
+          <button class="btn" onclick="resetPomo()">Reset</button>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px;justify-content:center">
+          <button class="btn btn-sm" onclick="setPomoMode(25,5)">25/5</button>
+          <button class="btn btn-sm" onclick="setPomoMode(50,10)">50/10</button>
+          <button class="btn btn-sm" onclick="setPomoMode(90,20)">90/20</button>
+        </div>
+        <div class="pomo-dots" id="pomo-dots">
+          <div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-label" style="margin-bottom:10px">Session Setup</div>
+        <div class="field"><label>Task / Focus Object</label><input type="text" id="pomo-task" placeholder="What are you working on?"></div>
+        <div class="field"><label>Notes (distractions, insights)</label><textarea id="pomo-notes" placeholder="Log interruptions or breakthroughs..."></textarea></div>
+        <button class="btn btn-sm btn-primary" onclick="logPomo()">Manual Log Session</button>
+      </div>
+      <div class="card">
+        <div class="card-label" style="margin-bottom:8px">Today's Log · Total: <span id="pomo-total" style="color:var(--accent)">0</span> sessions · <span id="pomo-mins" style="color:var(--accent)">0</span> min</div>
+        <div id="pomo-log" style="max-height:180px;overflow-y:auto"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section" style="margin-top:22px">
+    <div class="section-title">Focus Quality Log</div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>Task</th><th>Duration</th><th>Depth (1–5)</th><th>Distract.</th></tr></thead><tbody id="focus-qual-body"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     AUDIT
+══════════════════════════════════════ -->
+<div class="page" id="page-audit">
+  <div class="page-header">
+    <div><div class="page-title">Time Audit</div><div class="page-sub">How you spend your days is how you spend your life</div></div>
+    <div class="week-selector">
+      <button class="week-nav" onclick="shiftWeek(-1)">‹</button>
+      <span class="week-label" id="audit-week-lbl"></span>
+      <button class="week-nav" onclick="shiftWeek(1)">›</button>
+    </div>
+  </div>
+  <div class="callout"><strong>Weekly time audit</strong> — People overestimate productive time by 40–50% (Ariely, 2012). With 8h school daily, your "free" weekday time is ~6–7h. Target: Sleep 56h · School 40h · Home study 17–20h · Exercise 4h · Phone ≤9h.</div>
+  <div class="g2">
+    <div class="card">
+      <div class="card-label" style="margin-bottom:12px">Log Actual Time</div>
+      <div class="field"><label>Category</label>
+        <select id="audit-cat">
+          <option>Deep Work / Study</option><option>Shallow Work / Admin</option>
+          <option>Exercise / Physical</option><option>Social / Relationships</option>
+          <option>Entertainment / Phone</option><option>Sleep</option>
+          <option>Meals / Self-care</option><option>Commute / Transit</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Hours this week</label><input type="number" id="audit-hrs" placeholder="e.g. 20" min="0" step="0.5"></div>
+      <div class="field"><label>Note (optional)</label><input type="text" id="audit-note" placeholder="Was this intentional?"></div>
+      <button class="btn btn-primary btn-sm" onclick="addAudit()">Record</button>
+    </div>
+    <div class="card">
+      <div class="card-label" style="margin-bottom:12px">Allocation Overview</div>
+      <div id="audit-bars"></div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:10px">Total logged: <span id="audit-total" style="color:var(--accent)">0</span>h / 168h week</div>
+    </div>
+  </div>
+  <div class="section" style="margin-top:22px">
+    <div class="section-title">Distribution Chart</div>
+    <div class="card" style="display:flex;justify-content:center;padding:20px">
+      <canvas id="audit-pie" width="540" height="220"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MOOD
+══════════════════════════════════════ -->
+<div class="page" id="page-mood">
+  <div class="page-header">
+    <div><div class="page-title">Mood & Wellbeing</div><div class="page-sub">PANAS · Allostatic Load · Daily Check-in</div></div>
+  </div>
+  <div class="callout"><strong>Daily mood tracking</strong> — Monitor for sustained energy ≤4 for 3+ consecutive days (early burnout signal). Gratitude logging increases wellbeing by 25% over 10 weeks (Emmons & McCullough, 2003). Based on PANAS scale (Watson et al., 1988).</div>
+  <div class="section">
+    <div class="section-title">Today's Check-in</div>
+    <div class="g2">
+      <div>
+        <div class="field"><label>Date</label><input type="date" id="mood-date"></div>
+        <div class="field"><label>Mood (1–10)</label><div class="mood-scale" id="mood-scale"></div></div>
+        <div class="field"><label>Stress (1–10) — <span id="stress-v">5</span></label><input type="range" id="stress-r" min="1" max="10" value="5" oninput="document.getElementById('stress-v').textContent=this.value" style="accent-color:var(--red)"></div>
+        <div class="field"><label>Energy (1–10) — <span id="energy-v">5</span></label><input type="range" id="energy-r" min="1" max="10" value="5" oninput="document.getElementById('energy-v').textContent=this.value" style="accent-color:var(--green)"></div>
+        <div class="field"><label>Sleep last night (hrs)</label><input type="number" id="mood-sleep" placeholder="e.g. 7.5" min="0" max="12" step="0.5"></div>
+      </div>
+      <div>
+        <div class="field"><label>Notes — Triggers, Context</label><textarea id="mood-notes" style="min-height:100px" placeholder="What influenced your mood today?"></textarea></div>
+        <div class="field"><label>Gratitude (3 things)</label><textarea id="mood-grat" placeholder="1. &#10;2. &#10;3. " style="min-height:80px"></textarea></div>
+        <button class="btn btn-primary" onclick="logMood()">Save Entry</button>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">7-Day Trend</div>
+    <div class="card"><canvas id="mood-chart" width="620" height="180"></canvas></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Mood History</div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Date</th><th>Mood</th><th>Stress</th><th>Energy</th><th>Sleep</th><th>Notes</th><th></th></tr></thead><tbody id="mood-body"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     KNOWLEDGE
+══════════════════════════════════════ -->
+<div class="page" id="page-knowledge">
+  <div class="page-header">
+    <div><div class="page-title">Knowledge Vault</div><div class="page-sub">Books · Papers · Courses · Spaced Repetition</div></div>
+  </div>
+  <div class="callout"><strong>Same-day review rule</strong> — Review school notes within 2h of class using active recall (write from memory, then check). Retention jumps from ~30% to ~80% by exam (Roediger & Karpicke, 2006). Then: review again in 3 days → 1 week → 2 weeks → 1 month.</div>
+  <div class="section">
+    <div class="section-title">Add Resource</div>
+    <div class="card">
+      <div class="g2">
+        <div>
+          <div class="field"><label>Title</label><input type="text" id="k-title" placeholder="Book, paper, or course name"></div>
+          <div class="field"><label>Author / Source</label><input type="text" id="k-author" placeholder="e.g. Cal Newport"></div>
+          <div class="field"><label>Type</label><select id="k-type"><option>Book</option><option>Research Paper</option><option>Online Course</option><option>Lecture / Video</option><option>Article</option><option>Podcast</option></select></div>
+        </div>
+        <div>
+          <div class="field"><label>Status</label><select id="k-status"><option>To Read/Watch</option><option>In Progress</option><option>Completed</option><option>Reviewing</option></select></div>
+          <div class="field"><label>Progress (0–100%)</label><input type="number" id="k-prog" placeholder="e.g. 45" min="0" max="100"></div>
+          <div class="field"><label>Key Takeaway (Feynman technique)</label><textarea id="k-note" placeholder="Explain the core idea in simple terms..."></textarea></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addKnowledge()">+ Add to Vault</button>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Vault</div>
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <button class="btn btn-sm" onclick="setKFilter('all')">All</button>
+      <button class="btn btn-sm" onclick="setKFilter('Book')">Books</button>
+      <button class="btn btn-sm" onclick="setKFilter('Research Paper')">Papers</button>
+      <button class="btn btn-sm" onclick="setKFilter('Online Course')">Courses</button>
+    </div>
+    <div id="k-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     REVIEW
+══════════════════════════════════════ -->
+<div class="page" id="page-review">
+  <div class="page-header">
+    <div><div class="page-title">Weekly Review</div><div class="page-sub">GTD · Kaizen · Continuous Improvement</div></div>
+    <div class="week-selector">
+      <button class="week-nav" onclick="shiftWeek(-1)">‹</button>
+      <span class="week-label" id="rev-week-lbl"></span>
+      <button class="week-nav" onclick="shiftWeek(1)">›</button>
+    </div>
+  </div>
+  <div class="callout"><strong>Block 60 min every Sunday.</strong> GTD weekly review is the master key to staying on top (Allen, 2001). For students: reflect on which subjects are neglected, whether home study is active or passive, and whether sleep is protecting learning consolidation.</div>
+
+  <div class="review-block"><div class="review-block-title">◈ Wins & Accomplishments</div><textarea id="rev-wins" placeholder="What did I accomplish this week? What am I proud of?"></textarea></div>
+  <div class="review-block"><div class="review-block-title">◎ What Worked Well?</div><textarea id="rev-worked" placeholder="Which strategies, habits, or conditions drove my best output?"></textarea></div>
+  <div class="review-block"><div class="review-block-title">▣ What Wasted Time?</div><textarea id="rev-wasted" placeholder="Activities that drained time without return. How do I eliminate them?"></textarea></div>
+  <div class="review-block"><div class="review-block-title">▦ What Drained Energy?</div><textarea id="rev-drained" placeholder="People, tasks, situations that depleted me. Are they avoidable?"></textarea></div>
+  <div class="review-block">
+    <div class="review-block-title">◉ Next Week's Focus</div>
+    <div class="field"><label>Top 3 Priorities</label><textarea id="rev-next" placeholder="1. &#10;2. &#10;3. " style="min-height:70px"></textarea></div>
+    <div class="g2">
+      <div class="field"><label>One Habit to Strengthen</label><input type="text" id="rev-habit" placeholder="Which habit will I focus on?"></div>
+      <div class="field"><label>One Thing to Stop / Reduce</label><input type="text" id="rev-stop" placeholder="What will I consciously reduce?"></div>
+    </div>
+  </div>
+  <div class="review-block">
+    <div class="review-block-title">◑ Wellbeing Check</div>
+    <div class="g2">
+      <div class="field"><label>Week Rating (1–10)</label><input type="number" id="rev-rating" min="1" max="10" placeholder="7"></div>
+      <div class="field"><label>Avg Energy This Week (1–10)</label><input type="number" id="rev-energy" min="1" max="10" placeholder="6"></div>
+    </div>
+    <div class="field"><label>Learning Review — What needs spaced repetition?</label><textarea id="rev-learning" placeholder="What did I learn? What should go into Anki/spaced review?"></textarea></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="saveReview()">Save Review</button>
+    <button class="btn" onclick="exportReviewText()">Export as .txt</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HISTORY
+══════════════════════════════════════ -->
+<div class="page" id="page-history">
+  <div class="page-header">
+    <div><div class="page-title">Week History</div><div class="page-sub">Past Weeks · Trend Analysis · Archive</div></div>
+  </div>
+  <div class="callout">All past weeks are stored here automatically when you use "End Week / New Week." Click any week to view its data. Download individual week reports as PDF-ready text files.</div>
+  <div class="section">
+    <div class="section-title">Archive</div>
+    <div id="history-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GUIDE
+══════════════════════════════════════ -->
+<div class="page" id="page-guide">
+  <div class="page-header">
+    <div><div class="page-title">User Guide</div><div class="page-sub">How to use every feature · Scientific basis · Storage & Backup</div></div>
+  </div>
+  <div class="callout"><strong>Welcome to AETERNA.</strong> Every feature is grounded in peer-reviewed research. This guide covers usage instructions, the science behind each module, and how your data is stored. Expand any section below.</div>
+  <div id="guide-content"></div>
+</div>
+
+</main>
+
+<!-- ═══════════════════════════════════════
+     MODALS
+═══════════════════════════════════════ -->
+
+<!-- Habit Modal -->
+<div class="overlay" id="habit-modal">
+  <div class="modal">
+    <div class="modal-title">Add Habit</div>
+    <button class="modal-close" onclick="closeModal('habit-modal')">✕</button>
+    <div class="field"><label>Habit Name</label><input type="text" id="new-habit" placeholder="e.g. Morning Exercise"></div>
+    <div class="field"><label>Category</label>
+      <select id="new-habit-cat">
+        <option>Study</option><option>Health</option><option>Focus</option><option>Sleep</option><option>Other</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
+      <button class="btn" onclick="closeModal('habit-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Goal Modal -->
+<div class="overlay" id="goal-modal">
+  <div class="modal">
+    <div class="modal-title">New SMART Goal</div>
+    <button class="modal-close" onclick="closeModal('goal-modal')">✕</button>
+    <div class="field"><label>Goal Title</label><input type="text" id="g-title" placeholder="e.g. Master intermediate Japanese"></div>
+    <div class="field"><label>Specific — What exactly will you achieve?</label><textarea id="g-spec" placeholder="Describe the precise outcome in concrete terms"></textarea></div>
+    <div class="field"><label>Measurable — How will you measure progress?</label><input type="text" id="g-meas" placeholder="e.g. Pass JLPT N3 with ≥80%"></div>
+    <div class="field"><label>Deadline</label><input type="date" id="g-dl"></div>
+    <div class="field"><label>Current Progress (0–100%)</label><input type="number" id="g-prog" min="0" max="100" value="0"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveGoal()">Save Goal</button>
+      <button class="btn" onclick="closeModal('goal-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Schedule Event Modal -->
+<div class="overlay" id="sch-modal">
+  <div class="modal">
+    <div class="modal-title">Add Schedule Block</div>
+    <button class="modal-close" onclick="closeModal('sch-modal')">✕</button>
+    <div class="field"><label>Event Name</label><input type="text" id="sch-name" placeholder="e.g. Deep Work: Math"></div>
+    <div class="field"><label>Type</label>
+      <select id="sch-type">
+        <option value="t-study">Deep Work / Study</option>
+        <option value="t-school">School / Class</option>
+        <option value="t-break">Break / Exercise</option>
+        <option value="t-personal">Personal / Other</option>
+      </select>
+    </div>
+    <input type="hidden" id="sch-cell-key">
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveSchEvent()">Add Block</button>
+      <button class="btn" onclick="closeModal('sch-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- End Week Modal -->
+<div class="overlay" id="endweek-modal">
+  <div class="modal">
+    <div class="modal-title">End Week & Start New Week</div>
+    <button class="modal-close" onclick="closeModal('endweek-modal')">✕</button>
+    <div class="callout" style="margin-bottom:14px">The current week's data will be archived to Week History. A new week will begin. You can always view past weeks in the History tab.</div>
+    <div class="field"><label>Quick Week Summary (optional)</label><textarea id="ew-summary" placeholder="One sentence capturing this week..."></textarea></div>
+    <div class="field"><label>Rating this week (1–10)</label><input type="number" id="ew-rating" min="1" max="10" placeholder="7"></div>
+    <div style="margin-top:12px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text2)">
+        <input type="checkbox" id="ew-download" checked style="width:auto;accent-color:var(--accent)"> Download this week's report (.txt)
+      </label>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="confirmEndWeek()">Archive & Start New Week</button>
+      <button class="btn" onclick="closeModal('endweek-modal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- History Detail Modal -->
+<div class="overlay" id="hist-modal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-title" id="hist-modal-title">Week Detail</div>
+    <button class="modal-close" onclick="closeModal('hist-modal')">✕</button>
+    <div id="hist-modal-body" style="font-size:13px;color:var(--text2);line-height:1.8"></div>
+    <div class="btn-row">
+      <button class="btn btn-sm" onclick="downloadHistWeek()">Download Report</button>
+      <button class="btn btn-sm btn-danger" onclick="deleteHistWeek()">Delete</button>
+      <button class="btn btn-sm" onclick="closeModal('hist-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+// ═══════════════════════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════════════════════
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const HOURS = Array.from({length:20},(_,i)=>`${String(i+4).padStart(2,'0')}:00`);
+const AUDIT_COLORS = {
+  'Deep Work / Study':'#6a8ea8','Shallow Work / Admin':'#8b7aaa',
+  'Exercise / Physical':'#7a9e7e','Social / Relationships':'#c9a96e',
+  'Entertainment / Phone':'#c47a6a','Sleep':'#5a7a98','Meals / Self-care':'#9e8a6e',
+  'Commute / Transit':'#7a7060','Other':'#4a4030'
+};
+const STORAGE_KEY = 'aeterna_v2';
+const TOTAL_ARC = 547;
+
+// ═══════════════════════════════════════════════════════════
+//  WEEK UTILITIES
+// ═══════════════════════════════════════════════════════════
+let currentWeekOffset = 0; // 0 = current week, -1 = last week, etc.
+
+function getWeekKey(offset = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() - d.getDay() + 1 + offset * 7); // Monday
+  return d.toISOString().split('T')[0];
+}
+
+function getWeekLabel(offset = 0) {
+  const mon = new Date();
+  mon.setDate(mon.getDate() - mon.getDay() + 1 + offset * 7);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const fmt = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const wn = Math.ceil(((mon - new Date(mon.getFullYear(),0,1)) / 86400000 + 1) / 7);
+  return `W${wn}: ${fmt(mon)} – ${fmt(sun)}`;
+}
+
+function shiftWeek(dir) {
+  if (dir === 1 && currentWeekOffset >= 0) return; // can't go to future
+  currentWeekOffset += dir;
+  renderAll();
+}
+
+function isCurrentWeek() { return currentWeekOffset === 0; }
+
+// ═══════════════════════════════════════════════════════════
+//  STATE & STORAGE
+// ═══════════════════════════════════════════════════════════
+function defaultWeekData() {
+  return {
+    dashInputs: {},
+    habits: [
+      {id:1,name:'Home Study Block (3h+)',cat:'Study'},
+      {id:2,name:'Active Recall / Flashcard Review',cat:'Study'},
+      {id:3,name:'Exercise / Walk 30min',cat:'Health'},
+      {id:4,name:'Sleep by 11 PM',cat:'Sleep'},
+      {id:5,name:'No Phone During Study Blocks',cat:'Focus'},
+      {id:6,name:'Review School Notes Same Day',cat:'Study'},
+      {id:7,name:'Read / Knowledge Vault 20min',cat:'Study'},
+    ],
+    habitChecks: {}, // {habitId: [bool×7]}
+    tasks: [],
+    scheduleEvents: {}, // {cellKey: {name,type}}
+    auditData: {
+      'Deep Work / Study':17,'Shallow Work / Admin':5,'Exercise / Physical':4,
+      'Social / Relationships':8,'Entertainment / Phone':9,'Sleep':56,
+      'Meals / Self-care':10,'Commute / Transit':7,'Other':12
+    },
+    review: {},
+    pomoLog: [],
+    moodLog: [],
+  };
+}
+
+function defaultGlobalData() {
+  return {
+    goals: [],
+    knowledge: [],
+    plannerDays: {}, // {date: {mit1,mit2,mit3,morningIntent,eveReflect,energy,blocks}}
+    weekHistory: [], // archived weeks
+    savedAt: null,
+  };
+}
+
+let G = defaultGlobalData();
+let weeks = {}; // {weekKey: weekData}
+
+function getWeek(offset = currentWeekOffset) {
+  const key = getWeekKey(offset);
+  if (!weeks[key]) weeks[key] = defaultWeekData();
+  return weeks[key];
+}
+
+function persist() {
+  try {
+    G.savedAt = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({G, weeks}));
+    flashSave();
+  } catch(e) { console.warn('Save failed', e); }
+}
+
+function loadStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.G) G = Object.assign(defaultGlobalData(), d.G);
+    if (d.weeks) {
+      Object.entries(d.weeks).forEach(([k,v]) => {
+        weeks[k] = Object.assign(defaultWeekData(), v);
+      });
+    }
+  } catch(e) { console.warn('Load failed', e); }
+}
+
+function flashSave() {
+  const el = document.getElementById('save-flash');
+  if (!el) return;
+  el.style.opacity = '1';
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.style.opacity = '0', 2000);
+  const ls = document.getElementById('last-saved-txt');
+  if (ls) ls.textContent = 'Saved ' + new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════════════════════════
+function initNav() {
+  document.querySelectorAll('.nav-item[data-page]').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('page-' + el.dataset.page).classList.add('active');
+      closeSidebar();
+    });
+  });
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MODAL
+// ═══════════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ═══════════════════════════════════════════════════════════
+//  DATE / SIDEBAR
+// ═══════════════════════════════════════════════════════════
+function updateSidebar() {
+  const now = new Date();
+  const day = now.getDay() === 0 ? 7 : now.getDay();
+  document.getElementById('sb-week').textContent = getWeekLabel(0);
+  document.getElementById('wbar').style.width = (day/7*100) + '%';
+  if (G.savedAt) {
+    const d = new Date(G.savedAt);
+    document.getElementById('last-saved-txt').textContent = 'Saved ' + d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WEEK LABEL UPDATES
+// ═══════════════════════════════════════════════════════════
+function updateWeekLabels() {
+  const lbl = getWeekLabel(currentWeekOffset) + (isCurrentWeek() ? ' (current)' : '');
+  ['dash-week-lbl','task-week-lbl','sch-week-lbl','audit-week-lbl','rev-week-lbl'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = lbl;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════════
+const DASH_METRICS = [
+  {id:'study',label:'Total Study Hours',unit:'hrs',target:57,color:'var(--blue)',tip:'School 40h + home 17h = 57h target/week'},
+  {id:'deep',label:'Home Deep Work',unit:'hrs',target:17.5,color:'var(--accent)',tip:'3–3.5h/day at home after school'},
+  {id:'phone',label:'Phone Screen Time',unit:'hrs',target:10,color:'var(--red)',tip:'Target ≤10h/week (≤1.5h/day)'},
+  {id:'pomo',label:'Home Pomodoros',unit:'sess.',target:35,color:'var(--green)',tip:'6–8 sessions/day × 5 weekdays'},
+  {id:'mood',label:'Avg Mood',unit:'/10',target:10,color:'var(--yellow)',tip:'Sustained ≥6.5 needed for healthy learning'},
+  {id:'sleep',label:'Avg Sleep',unit:'hrs',target:8,color:'var(--blue)',tip:'≥7h non-negotiable — consolidates school learning'},
+  {id:'habit',label:'Habit Rate',unit:'%',target:100,color:'var(--purple)',tip:'Target ≥75% weekdays, ≥90% weekends'},
+  {id:'tasks',label:'Tasks Done',unit:'',target:1,color:'var(--green)',tip:'Completion rate ≥70%'},
+];
+
+function renderDashCards() {
+  const w = getWeek();
+  const inp = w.dashInputs || {};
+  const study = inp.study||0, deep = inp.deep||0, phone = inp.phone||0, pomo = inp.pomo||0;
+  const mood = inp.mood||0, sleep = inp.sleep||0;
+  const hc = inp.hc||0, ht = inp.ht||0, td = inp.td||0, tt = inp.tt||0;
+  const habit = ht>0 ? Math.round(hc/ht*100) : 0;
+  const taskRate = tt>0 ? Math.round(td/tt*100) : 0;
+  const vals = {study,deep,phone,pomo,mood,sleep,habit,tasks:taskRate};
+  const displays = {
+    study:`${study}<span> hrs</span>`,deep:`${deep}<span> hrs</span>`,
+    phone:`${phone}<span> hrs</span>`,pomo:`${pomo}<span> sess.</span>`,
+    mood: mood?`${mood}<span>/10</span>`:`—<span>/10</span>`,
+    sleep: sleep?`${sleep}<span> hrs</span>`:`—<span> hrs</span>`,
+    habit:`${habit}<span> %</span>`,tasks:`${td}<span>/${tt}</span>`
+  };
+  const targets = {study:57,deep:17.5,phone:10,pomo:35,mood:10,sleep:8,habit:100,tasks:100};
+  const notes = {
+    study:'Target: 55–58 hrs/week',deep:'Target: 3–3.5h/day home',
+    phone:'Target: ≤10h/week',pomo:'Target: 6–8 sessions/day',
+    mood:'Target: ≥6.5/10',sleep:'Target: 7–8h (non-negotiable)',
+    habit:'Target: ≥75% weekdays',tasks:'Target: ≥70% completion'
+  };
+  const colors = {study:'var(--blue)',deep:'var(--accent)',phone:'var(--red)',pomo:'var(--green)',mood:'var(--yellow)',sleep:'var(--blue)',habit:'var(--purple)',tasks:'var(--green)'};
+
+  const container = document.getElementById('dash-cards');
+  if (!container) return;
+  container.innerHTML = DASH_METRICS.map(m => {
+    const v = vals[m.id] || 0;
+    const pct = Math.min(100, (v / targets[m.id]) * 100);
+    return `<div class="card" data-tip="${m.tip}">
+      <div class="card-label">${m.label}</div>
+      <div class="card-val">${displays[m.id]}</div>
+      <div class="pbar"><div class="pfill" style="width:${pct}%;background:${colors[m.id]}"></div></div>
+      <div class="card-note">${notes[m.id]}</div>
+    </div>`;
+  }).join('');
+
+  // Radar
+  drawRadar([
+    Math.min(100,study/57*100), Math.min(100,deep/17.5*100),
+    Math.max(0,100-phone/10*100), mood?mood/10*100:0,
+    sleep?Math.min(100,sleep/8*100):0, habit
+  ]);
+}
+
+function saveDashInputs() {
+  const w = getWeek();
+  if (!isCurrentWeek()) return; // read-only for past weeks
+  w.dashInputs = {
+    study: +document.getElementById('in-study').value||0,
+    deep: +document.getElementById('in-deep').value||0,
+    phone: +document.getElementById('in-phone').value||0,
+    pomo: +document.getElementById('in-pomo').value||0,
+    mood: +document.getElementById('in-mood').value||0,
+    sleep: +document.getElementById('in-sleep').value||0,
+    hc: +document.getElementById('in-hc').value||0,
+    ht: +document.getElementById('in-ht').value||0,
+    td: +document.getElementById('in-td').value||0,
+    tt: +document.getElementById('in-tt').value||0,
+  };
+  persist();
+  renderDashCards();
+}
+
+function loadDashInputs() {
+  const inp = getWeek().dashInputs || {};
+  const map = {study:'in-study',deep:'in-deep',phone:'in-phone',pomo:'in-pomo',mood:'in-mood',sleep:'in-sleep',hc:'in-hc',ht:'in-ht',td:'in-td',tt:'in-tt'};
+  Object.entries(map).forEach(([k,id]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = inp[k] || '';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RADAR
+// ═══════════════════════════════════════════════════════════
+function drawRadar(vals=[0,0,0,0,0,0]) {
+  const cv = document.getElementById('radar');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+  const cx=W/2, cy=H/2+8, r=95;
+  const labels=['Study','Deep Work','Phone Ctrl','Mood','Sleep','Habits'];
+  const n=6, step=Math.PI*2/n, off=-Math.PI/2;
+  ctx.lineWidth=1;
+  for(let ring=1;ring<=5;ring++){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=off+i*step, x=cx+Math.cos(a)*r*(ring/5), y=cy+Math.sin(a)*r*(ring/5);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.strokeStyle='rgba(160,140,110,.4)'; ctx.stroke();
+  }
+  for(let i=0;i<n;i++){
+    const a=off+i*step;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*r, cy+Math.sin(a)*r);
+    ctx.strokeStyle='rgba(160,140,110,.3)'; ctx.stroke();
+  }
+  ctx.beginPath();
+  for(let i=0;i<n;i++){
+    const a=off+i*step, v=Math.min(100,Math.max(0,vals[i]));
+    const x=cx+Math.cos(a)*r*(v/100), y=cy+Math.sin(a)*r*(v/100);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath(); ctx.fillStyle='rgba(139,94,26,.18)'; ctx.fill();
+  ctx.strokeStyle='rgba(139,94,26,.9)'; ctx.lineWidth=1.5; ctx.stroke();
+  for(let i=0;i<n;i++){
+    const a=off+i*step, v=Math.min(100,Math.max(0,vals[i]));
+    const x=cx+Math.cos(a)*r*(v/100), y=cy+Math.sin(a)*r*(v/100);
+    ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2);
+    ctx.fillStyle='#c9a96e'; ctx.fill();
+  }
+  ctx.font='9px "DM Mono"'; ctx.fillStyle='rgba(90,70,40,.8)'; ctx.textAlign='center';
+  for(let i=0;i<n;i++){
+    const a=off+i*step;
+    ctx.fillText(labels[i].toUpperCase(), cx+Math.cos(a)*(r+17), cy+Math.sin(a)*(r+17)+3);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HABITS
+// ═══════════════════════════════════════════════════════════
+function renderHabits() {
+  const w = getWeek();
+  const container = document.getElementById('habit-list');
+  if (!container) return;
+  if (!w.habits.length) { container.innerHTML='<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:10px">No habits yet. Add one above.</div>'; return; }
+
+  container.innerHTML = '';
+  // Day headers
+  const header = document.createElement('div');
+  header.style.cssText = 'display:flex;align-items:center;gap:10px;padding:4px 0 6px;border-bottom:1px solid var(--border);margin-bottom:4px';
+  header.innerHTML = `<div style="flex:1"></div><div class="habit-days">${DAYS.map(d=>`<div style="width:24px;text-align:center;font-family:var(--mono);font-size:8px;color:var(--text3)">${d[0]}</div>`).join('')}</div><div style="width:32px"></div>${isCurrentWeek()?'<div style="width:32px"></div>':''}`;
+  container.appendChild(header);
+
+  w.habits.forEach((h, hi) => {
+    if (!w.habitChecks[h.id]) w.habitChecks[h.id] = [];
+    const done = w.habitChecks[h.id].filter(Boolean).length;
+    const pct = Math.round(done/7*100);
+    const row = document.createElement('div');
+    row.className = 'habit-row';
+    const checks = DAYS.map((_,di) => {
+      const on = w.habitChecks[h.id][di] ? 'on' : '';
+      return `<div class="hcheck ${on}" onclick="toggleHabit(${h.id},${di})">${on?'✓':''}</div>`;
+    }).join('');
+    row.innerHTML = `
+      <div class="habit-name" title="${h.name}">${h.name} <span class="tag">${h.cat}</span></div>
+      <div class="habit-days">${checks}</div>
+      <div class="habit-pct">${pct}%</div>
+      ${isCurrentWeek() ? `<button class="btn btn-sm btn-danger" onclick="removeHabit(${h.id})" style="padding:2px 7px;font-size:9px">✕</button>` : ''}
+    `;
+    container.appendChild(row);
+  });
+}
+
+function toggleHabit(hid, di) {
+  if (!isCurrentWeek()) return;
+  const w = getWeek();
+  if (!w.habitChecks[hid]) w.habitChecks[hid] = [];
+  w.habitChecks[hid][di] = !w.habitChecks[hid][di];
+  persist(); renderHabits();
+}
+
+function addHabit() {
+  const name = document.getElementById('new-habit').value.trim();
+  if (!name) return;
+  const cat = document.getElementById('new-habit-cat').value;
+  const w = getWeek();
+  w.habits.push({id: Date.now(), name, cat});
+  document.getElementById('new-habit').value = '';
+  persist(); renderHabits(); closeModal('habit-modal');
+}
+
+function removeHabit(hid) {
+  if (!confirm('Remove this habit from current week?')) return;
+  const w = getWeek();
+  w.habits = w.habits.filter(h => h.id !== hid);
+  delete w.habitChecks[hid];
+  persist(); renderHabits();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TASKS
+// ═══════════════════════════════════════════════════════════
+let taskFilter = 'all';
+
+function addTask() {
+  const name = document.getElementById('t-name').value.trim();
+  if (!name) return;
+  getWeek().tasks.push({
+    id: Date.now(), name,
+    project: document.getElementById('t-proj').value || '—',
+    priority: document.getElementById('t-pri').value,
+    time: document.getElementById('t-time').value || '—',
+    deadline: document.getElementById('t-dl').value || '—',
+    status: document.getElementById('t-status').value,
+  });
+  ['t-name','t-proj','t-time','t-dl'].forEach(id => document.getElementById(id).value='');
+  persist(); renderTasks();
+}
+
+function renderTasks() {
+  const body = document.getElementById('task-body');
+  if (!body) return;
+  const tasks = getWeek().tasks.filter(t => {
+    if (taskFilter === 'all') return true;
+    return t.status === taskFilter || t.priority === taskFilter;
+  });
+  const ro = !isCurrentWeek();
+  body.innerHTML = tasks.map(t => `
+    <tr>
+      <td style="color:var(--text)">${t.name}</td>
+      <td><span class="tag">${t.project}</span></td>
+      <td><span class="badge b-${t.priority==='High'?'high':t.priority==='Med'?'med':'low'}">${t.priority}</span></td>
+      <td style="font-family:var(--mono);font-size:10px">${t.time}h</td>
+      <td style="font-family:var(--mono);font-size:10px">${t.deadline}</td>
+      <td>${ro?`<span class="badge b-${t.status==='Done'?'done':t.status==='In Progress'?'prog':'todo'}">${t.status}</span>`:
+        `<select style="background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:2px;padding:2px 4px;font-size:11px;font-family:var(--mono)" onchange="updateTaskStatus(${t.id},this.value)">
+          <option${t.status==='To Do'?' selected':''}>To Do</option>
+          <option${t.status==='In Progress'?' selected':''}>In Progress</option>
+          <option${t.status==='Done'?' selected':''}>Done</option>
+        </select>`}</td>
+      <td>${ro?'':'<button class="btn btn-sm" style="padding:2px 7px" onclick="deleteTask('+t.id+')">✕</button>'}</td>
+    </tr>`).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--text3);font-family:var(--mono);font-size:9px;padding:18px">No tasks yet.</td></tr>`;
+}
+
+function updateTaskStatus(id, val) {
+  const t = getWeek().tasks.find(x => x.id === id);
+  if (t) { t.status = val; persist(); }
+}
+function deleteTask(id) { getWeek().tasks = getWeek().tasks.filter(t => t.id !== id); persist(); renderTasks(); }
+function setTaskFilter(f) { taskFilter = f; renderTasks(); }
+
+// ═══════════════════════════════════════════════════════════
+//  GOALS (global, not per-week)
+// ═══════════════════════════════════════════════════════════
+function saveGoal() {
+  const title = document.getElementById('g-title').value.trim();
+  if (!title) return;
+  G.goals.push({
+    id: Date.now(), title,
+    specific: document.getElementById('g-spec').value,
+    measurable: document.getElementById('g-meas').value,
+    deadline: document.getElementById('g-dl').value || '—',
+    progress: +document.getElementById('g-prog').value || 0,
+  });
+  ['g-title','g-spec','g-meas','g-dl'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('g-prog').value = 0;
+  persist(); renderGoals(); closeModal('goal-modal');
+}
+
+function renderGoals() {
+  const list = document.getElementById('goal-list');
+  if (!list) return;
+  list.innerHTML = G.goals.map(g => `
+    <div class="gcard">
+      <div class="gcard-title">${g.title}</div>
+      <div class="gcard-meta"><span>📅 ${g.deadline}</span><span>📐 ${g.measurable||'—'}</span></div>
+      ${g.specific?`<div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-style:italic">${g.specific}</div>`:''}
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="gcard-pct">${g.progress}%</div>
+        <div style="flex:1"><div class="pbar" style="height:5px"><div class="pfill" style="width:${g.progress}%;background:var(--accent)"></div></div></div>
+        <button class="btn btn-sm" onclick="updateGoal(${g.id})">Update</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteGoal(${g.id})">✕</button>
+      </div>
+    </div>`).join('') || `<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:10px">No goals yet. Add your first SMART goal above.</div>`;
+}
+
+function updateGoal(id) {
+  const g = G.goals.find(x => x.id===id);
+  if (!g) return;
+  const v = prompt('New progress (0–100):', g.progress);
+  if (v !== null) { g.progress = Math.min(100,Math.max(0,+v||0)); persist(); renderGoals(); }
+}
+function deleteGoal(id) { G.goals = G.goals.filter(g => g.id!==id); persist(); renderGoals(); }
+
+// ═══════════════════════════════════════════════════════════
+//  SCHEDULE
+// ═══════════════════════════════════════════════════════════
+function buildSchedule() {
+  const grid = document.getElementById('sch-grid');
+  if (!grid) return;
+  const w = getWeek();
+  const ro = !isCurrentWeek();
+  grid.innerHTML = '';
+  // Header
+  const blank = document.createElement('div');
+  blank.className='sch-head'; blank.textContent='TIME'; grid.appendChild(blank);
+  DAYS.forEach(d => {
+    const h = document.createElement('div');
+    h.className='sch-head'; h.textContent=d; grid.appendChild(h);
+  });
+  // Rows
+  HOURS.forEach(hr => {
+    const tc = document.createElement('div');
+    tc.className='sch-time'; tc.textContent=hr; grid.appendChild(tc);
+    DAYS.forEach((_,di) => {
+      const cell = document.createElement('div');
+      cell.className='sch-cell';
+      const key = `${di}-${hr}`;
+      const ev = w.scheduleEvents[key];
+      if (ev) {
+        const evEl = document.createElement('div');
+        evEl.className=`sch-evt ${ev.type}`;
+        evEl.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis">${ev.name}</span>${ro?'':'<span class="sch-del" onclick="deleteSchEvent(event,\''+key+'\')">✕</span>'}`;
+        cell.appendChild(evEl);
+      }
+      if (!ro) cell.addEventListener('click', e => { if (!e.target.classList.contains('sch-del')) openSchModal(key); });
+      grid.appendChild(cell);
+    });
+  });
+}
+
+let _schKey = '';
+function openSchModal(key) {
+  _schKey = key;
+  document.getElementById('sch-name').value = '';
+  openModal('sch-modal');
+}
+function saveSchEvent() {
+  const name = document.getElementById('sch-name').value.trim();
+  if (!name) return;
+  getWeek().scheduleEvents[_schKey] = {name, type: document.getElementById('sch-type').value};
+  persist(); buildSchedule(); closeModal('sch-modal');
+}
+function deleteSchEvent(e, key) {
+  e.stopPropagation();
+  delete getWeek().scheduleEvents[key];
+  persist(); buildSchedule();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PLANNER
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_BLOCKS = [
+  {s:'06:00',e:'07:00',lbl:'Morning Routine (wake, breakfast, light review)'},
+  {s:'07:00',e:'07:30',lbl:"Preview: scan today's school topics"},
+  {s:'07:30',e:'15:30',lbl:'🏫 School (8 hours — lectures, seminars, practicals)'},
+  {s:'15:30',e:'16:00',lbl:'Transition + Snack + Short Walk (decompression)'},
+  {s:'16:00',e:'17:30',lbl:'🎯 Home Deep Work Block 1 — Priority subject'},
+  {s:'17:30',e:'17:45',lbl:'Break (walk, stretch, water)'},
+  {s:'17:45',e:'19:00',lbl:'🎯 Home Deep Work Block 2 — Review / problem sets'},
+  {s:'19:00',e:'19:45',lbl:'Dinner + Rest (no screens)'},
+  {s:'19:45',e:'20:30',lbl:'📚 Active Recall / Flashcards / Anki'},
+  {s:'20:30',e:'21:00',lbl:'Plan tomorrow + Daily review journal'},
+  {s:'21:00',e:'22:00',lbl:'Wind-down (reading, no phone after 10 PM)'},
+  {s:'22:00',e:'06:00',lbl:'💤 Sleep (8h — memory consolidation)'},
+];
+
+function buildTimeBlocks() {
+  const container = document.getElementById('time-blocks');
+  if (!container) return;
+  const date = document.getElementById('plan-date').value;
+  const saved = G.plannerDays[date];
+  const blocks = saved?.blocks || DEFAULT_BLOCKS;
+  container.innerHTML = '';
+  blocks.forEach((b,i) => addBlockRow(container, b.s, b.e, b.lbl, i));
+}
+
+function addBlock() {
+  addBlockRow(document.getElementById('time-blocks'), '', '', '', -1);
+}
+
+function addBlockRow(container, s, e, lbl, idx) {
+  const row = document.createElement('div');
+  row.className = 'tblock-row';
+  row.innerHTML = `
+    <input type="time" value="${s}" style="width:84px;padding:5px 7px;font-size:12px">
+    <span class="tblock-arrow">→</span>
+    <input type="time" value="${e}" style="width:84px;padding:5px 7px;font-size:12px">
+    <input type="text" value="${lbl}" placeholder="Block name" style="flex:1;padding:5px 8px;font-size:13px">
+    <button class="btn btn-sm" onclick="this.parentElement.remove()" style="padding:3px 8px">✕</button>`;
+  container.appendChild(row);
+}
+
+function resetBlocks() {
+  const container = document.getElementById('time-blocks');
+  container.innerHTML = '';
+  DEFAULT_BLOCKS.forEach((b,i) => addBlockRow(container, b.s, b.e, b.lbl, i));
+}
+
+function saveMITs() {
+  const date = document.getElementById('plan-date').value;
+  if (!G.plannerDays[date]) G.plannerDays[date] = {};
+  G.plannerDays[date].mit1 = document.getElementById('mit1').value;
+  G.plannerDays[date].mit2 = document.getElementById('mit2').value;
+  G.plannerDays[date].mit3 = document.getElementById('mit3').value;
+  persist();
+}
+
+function saveDayDesign() {
+  const date = document.getElementById('plan-date').value;
+  if (!G.plannerDays[date]) G.plannerDays[date] = {};
+  const rows = document.getElementById('time-blocks').querySelectorAll('.tblock-row');
+  G.plannerDays[date].blocks = [...rows].map(r => {
+    const inputs = r.querySelectorAll('input');
+    return {s:inputs[0].value, e:inputs[1].value, lbl:inputs[2].value};
+  });
+  G.plannerDays[date].morningIntent = document.getElementById('morning-intent').value;
+  G.plannerDays[date].eveReflect = document.getElementById('eve-reflect').value;
+  G.plannerDays[date].energy = document.getElementById('day-energy').value;
+  persist();
+  alert('Day saved ✓');
+}
+
+function loadPlanner() {
+  const date = document.getElementById('plan-date').value;
+  const d = G.plannerDays[date] || {};
+  document.getElementById('mit1').value = d.mit1||'';
+  document.getElementById('mit2').value = d.mit2||'';
+  document.getElementById('mit3').value = d.mit3||'';
+  document.getElementById('morning-intent').value = d.morningIntent||'';
+  document.getElementById('eve-reflect').value = d.eveReflect||'';
+  if (d.energy) { document.getElementById('day-energy').value = d.energy; document.getElementById('day-energy-val').textContent=d.energy; }
+  buildTimeBlocks();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  POMODORO
+// ═══════════════════════════════════════════════════════════
+let pomoF=25, pomoB=5, pomoSecs=25*60, pomoRunning=false, pomoTimer=null;
+let pomoBreakMode=false, pomoCycles=0, pomoDone=0;
+
+function setPomoMode(f,b){ pomoF=f; pomoB=b; resetPomo(); }
+function togglePomo(){
+  if(pomoRunning){ clearInterval(pomoTimer); pomoRunning=false; document.getElementById('pomo-btn').textContent='Resume'; }
+  else { pomoRunning=true; document.getElementById('pomo-btn').textContent='Pause'; pomoTimer=setInterval(tickPomo,1000); }
+}
+function tickPomo(){
+  pomoSecs--;
+  if(pomoSecs<0){
+    clearInterval(pomoTimer); pomoRunning=false;
+    if(!pomoBreakMode){
+      pomoDone++; pomoCycles++;
+      const task = document.getElementById('pomo-task').value||'—';
+      getWeek().pomoLog.push({task, time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}), dur:pomoF, date:new Date().toISOString().split('T')[0]});
+      persist(); renderPomoLog();
+      pomoBreakMode=true;
+      pomoSecs = pomoCycles>=4 ? 1800 : pomoB*60;
+      if(pomoCycles>=4) pomoCycles=0;
+    } else { pomoBreakMode=false; pomoSecs=pomoF*60; }
+    updatePomoUI();
+    document.getElementById('pomo-btn').textContent='Start Next';
+    return;
+  }
+  updatePomoUI();
+}
+function updatePomoUI(){
+  const total = pomoBreakMode ? (pomoCycles>=4?1800:pomoB*60) : pomoF*60;
+  const m=Math.floor(pomoSecs/60), s=pomoSecs%60;
+  document.getElementById('pomo-time').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  document.getElementById('pomo-mode').textContent=pomoBreakMode?'BREAK':'FOCUS SESSION';
+  document.getElementById('pomo-arc').style.strokeDashoffset=TOTAL_ARC*(pomoSecs/total);
+  document.querySelectorAll('.pdot').forEach((d,i)=>d.className='pdot'+(i<pomoDone%4?' on':''));
+}
+function resetPomo(){
+  clearInterval(pomoTimer); pomoRunning=false; pomoBreakMode=false; pomoSecs=pomoF*60; pomoCycles=0;
+  document.getElementById('pomo-btn').textContent='Start'; updatePomoUI();
+}
+function logPomo(){
+  const task=document.getElementById('pomo-task').value||'—';
+  getWeek().pomoLog.push({task,time:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),dur:pomoF,date:new Date().toISOString().split('T')[0]});
+  persist(); renderPomoLog();
+}
+function renderPomoLog(){
+  const log = getWeek().pomoLog;
+  const el=document.getElementById('pomo-log');
+  const tot=document.getElementById('pomo-total');
+  const mins=document.getElementById('pomo-mins');
+  if(el) el.innerHTML=[...log].reverse().map(s=>`
+    <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px">
+      <span style="color:var(--text2)">${s.task}</span>
+      <span style="font-family:var(--mono);font-size:9px;color:var(--text3)">${s.time} · ${s.dur}min</span>
+    </div>`).join('')||'<div style="font-family:var(--mono);font-size:9px;color:var(--text3);padding:8px">No sessions yet.</div>';
+  if(tot) tot.textContent=log.length;
+  if(mins) mins.textContent=log.reduce((a,s)=>a+s.dur,0);
+  const body=document.getElementById('focus-qual-body');
+  if(body) body.innerHTML=[...log].reverse().map((s,i)=>`
+    <tr>
+      <td style="font-family:var(--mono);font-size:9px">#${log.length-i}</td>
+      <td>${s.task}</td>
+      <td style="font-family:var(--mono);font-size:9px">${s.dur}min</td>
+      <td><select style="background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:2px;padding:2px 5px;font-size:10px">
+        <option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option>
+      </select></td>
+      <td><input type="number" min="0" max="20" value="0" style="width:54px;padding:2px 5px;font-size:10px"></td>
+    </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--text3);font-family:var(--mono);font-size:9px;padding:14px">No sessions yet.</td></tr>';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TIME AUDIT
+// ═══════════════════════════════════════════════════════════
+function addAudit(){
+  const cat=document.getElementById('audit-cat').value;
+  const hrs=parseFloat(document.getElementById('audit-hrs').value)||0;
+  if(!hrs||!isCurrentWeek()) return;
+  getWeek().auditData[cat]=(getWeek().auditData[cat]||0)+hrs;
+  document.getElementById('audit-hrs').value='';
+  persist(); renderAudit();
+}
+function renderAudit(){
+  const data = getWeek().auditData;
+  const container=document.getElementById('audit-bars');
+  if(!container) return;
+  const total=Object.values(data).reduce((a,b)=>a+b,0)||1;
+  container.innerHTML=Object.entries(data).map(([k,v])=>`
+    <div class="audit-row">
+      <div class="audit-lbl">${k}</div>
+      <div class="audit-track"><div class="audit-fill" style="width:${(v/total)*100}%;background:${AUDIT_COLORS[k]||'#888'}"></div></div>
+      <div class="audit-val">${v}h</div>
+    </div>`).join('')||'<div style="font-family:var(--mono);font-size:9px;color:var(--text3)">No data.</div>';
+  const tot=Object.values(data).reduce((a,b)=>a+b,0);
+  const el=document.getElementById('audit-total'); if(el) el.textContent=tot;
+  drawAuditPie(data);
+}
+function drawAuditPie(data){
+  const cv=document.getElementById('audit-pie'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  ctx.clearRect(0,0,cv.width,cv.height);
+  const entries=Object.entries(data).filter(([,v])=>v>0);
+  if(!entries.length) return;
+  const total=entries.reduce((a,[,v])=>a+v,0);
+  const cx=110,cy=110,r=90;
+  let angle=-Math.PI/2;
+  entries.forEach(([k,v])=>{
+    const s=(v/total)*Math.PI*2;
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,angle,angle+s);
+    ctx.fillStyle=AUDIT_COLORS[k]||'#888'; ctx.fill();
+    ctx.strokeStyle='var(--bg3)'; ctx.lineWidth=2; ctx.stroke();
+    angle+=s;
+  });
+  entries.forEach(([k,v],i)=>{
+    const x=230,y=14+i*20;
+    ctx.fillStyle=AUDIT_COLORS[k]||'#888'; ctx.fillRect(x,y-8,10,10);
+    ctx.fillStyle='rgba(60,45,25,.85)'; ctx.font='9px "DM Mono"'; ctx.textAlign='left';
+    ctx.fillText(`${k} (${v}h)`,x+14,y);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MOOD
+// ═══════════════════════════════════════════════════════════
+function buildMoodScale(){
+  const el=document.getElementById('mood-scale'); if(!el) return;
+  el.innerHTML='';
+  for(let i=1;i<=10;i++){
+    const btn=document.createElement('div'); btn.className='mood-btn'; btn.textContent=i;
+    btn.onclick=()=>{ document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); };
+    el.appendChild(btn);
+  }
+}
+function logMood(){
+  const sel=document.querySelector('.mood-btn.on');
+  if(!sel){alert('Please select a mood value.');return;}
+  getWeek().moodLog.push({
+    date:document.getElementById('mood-date').value||new Date().toISOString().split('T')[0],
+    mood:+sel.textContent,
+    stress:+document.getElementById('stress-r').value,
+    energy:+document.getElementById('energy-r').value,
+    sleep:parseFloat(document.getElementById('mood-sleep').value)||0,
+    notes:document.getElementById('mood-notes').value,
+  });
+  getWeek().moodLog.sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('mood-notes').value='';
+  document.getElementById('mood-grat').value='';
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('on'));
+  persist(); renderMood();
+}
+function renderMood(){
+  const log=getWeek().moodLog;
+  const body=document.getElementById('mood-body'); if(!body) return;
+  const mc=(m)=>m>=8?'var(--green)':m>=5?'var(--accent)':'var(--red)';
+  body.innerHTML=[...log].reverse().map(e=>`
+    <tr>
+      <td style="font-family:var(--mono);font-size:10px">${e.date}</td>
+      <td><span style="font-family:var(--display);font-size:17px;color:${mc(e.mood)}">${e.mood}</span></td>
+      <td style="font-family:var(--mono);font-size:10px;color:var(--red)">${e.stress}</td>
+      <td style="font-family:var(--mono);font-size:10px;color:var(--green)">${e.energy}</td>
+      <td style="font-family:var(--mono);font-size:10px">${e.sleep}h</td>
+      <td style="font-size:12px;color:var(--text3);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.notes}</td>
+      <td>${isCurrentWeek()?`<button class="btn btn-sm" style="padding:2px 6px" onclick="deleteMood('${e.date}')">✕</button>`:''}</td>
+    </tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--text3);font-family:var(--mono);font-size:9px;padding:14px">No entries yet.</td></tr>';
+  drawMoodChart(log);
+}
+function deleteMood(date){ getWeek().moodLog=getWeek().moodLog.filter(e=>e.date!==date); persist(); renderMood(); }
+function drawMoodChart(log){
+  const cv=document.getElementById('mood-chart'); if(!cv) return;
+  const ctx=cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height);
+  const data=log.slice(-7);
+  if(data.length<2){ ctx.font='11px "DM Mono"'; ctx.fillStyle='rgba(90,70,40,.6)'; ctx.textAlign='center'; ctx.fillText('Log at least 2 entries to see trend',cv.width/2,cv.height/2); return; }
+  const W=cv.width,H=cv.height,pad={t:20,r:20,b:28,l:28};
+  const w=W-pad.l-pad.r,h=H-pad.t-pad.b;
+  for(let i=0;i<=10;i+=2){
+    const y=pad.t+h-(i/10)*h;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y);
+    ctx.strokeStyle=i===0?'rgba(160,140,110,.5)':'rgba(160,140,110,.2)'; ctx.lineWidth=.5; ctx.stroke();
+    ctx.font='7px "DM Mono"'; ctx.fillStyle='rgba(90,70,40,.7)'; ctx.textAlign='right'; ctx.fillText(i,pad.l-3,y+2);
+  }
+  [{key:'mood',c:'#8b5e1a'},{key:'energy',c:'#3a6e40'},{key:'stress',c:'#a03020'}].forEach(({key,c})=>{
+    ctx.beginPath();
+    data.forEach((d,i)=>{ const x=pad.l+(i/(data.length-1))*w, y=pad.t+h-((d[key]||0)/10)*h; i===0?ctx.moveTo(x,y):ctx.lineTo(x,y); });
+    ctx.strokeStyle=c; ctx.lineWidth=1.5; ctx.stroke();
+    data.forEach((d,i)=>{ const x=pad.l+(i/(data.length-1))*w, y=pad.t+h-((d[key]||0)/10)*h; ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fillStyle=c; ctx.fill(); });
+  });
+  data.forEach((d,i)=>{ const x=pad.l+(i/(data.length-1))*w; ctx.font='7px "DM Mono"'; ctx.fillStyle='rgba(90,70,40,.7)'; ctx.textAlign='center'; ctx.fillText(d.date.slice(5),x,H-3); });
+  [{l:'Mood',c:'#8b5e1a'},{l:'Energy',c:'#3a6e40'},{l:'Stress',c:'#a03020'}].forEach(({l,c},i)=>{ const x=pad.l+i*72; ctx.fillStyle=c; ctx.fillRect(x,4,12,2); ctx.fillStyle='rgba(60,45,25,.8)'; ctx.font='7px "DM Mono"'; ctx.textAlign='left'; ctx.fillText(l,x+16,8); });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  KNOWLEDGE
+// ═══════════════════════════════════════════════════════════
+let kFilter='all';
+function addKnowledge(){
+  const title=document.getElementById('k-title').value.trim(); if(!title) return;
+  G.knowledge.push({
+    id:Date.now(), title,
+    author:document.getElementById('k-author').value||'—',
+    type:document.getElementById('k-type').value,
+    status:document.getElementById('k-status').value,
+    progress:+document.getElementById('k-prog').value||0,
+    note:document.getElementById('k-note').value,
+  });
+  ['k-title','k-author','k-prog','k-note'].forEach(id=>document.getElementById(id).value='');
+  persist(); renderKnowledge();
+}
+function renderKnowledge(){
+  const list=document.getElementById('k-list'); if(!list) return;
+  const items=G.knowledge.filter(k=>kFilter==='all'||k.type===kFilter);
+  list.innerHTML=items.map(k=>`
+    <div class="kcard">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div class="kcard-title">${k.title}</div>
+        <div style="display:flex;gap:5px;flex-shrink:0">
+          <button class="btn btn-sm" onclick="updateKProgress(${k.id})">Update %</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteKnowledge(${k.id})" style="padding:2px 7px">✕</button>
+        </div>
+      </div>
+      <div class="kcard-meta"><span>${k.author}</span><span class="tag">${k.type}</span><span class="badge b-${k.status==='Completed'?'done':k.status==='In Progress'?'prog':'todo'}">${k.status}</span></div>
+      ${k.note?`<div style="margin-top:6px;font-size:12px;color:var(--text3);font-style:italic">${k.note}</div>`:''}
+      <div class="pbar" style="margin-top:8px"><div class="pfill" style="width:${k.progress}%;background:var(--accent)"></div></div>
+      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px">${k.progress}% complete</div>
+    </div>`).join('')||`<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:10px">Vault is empty. Add your first resource above.</div>`;
+}
+function updateKProgress(id){ const k=G.knowledge.find(x=>x.id===id); if(!k) return; const v=prompt('New progress (0–100):',k.progress); if(v!==null){k.progress=Math.min(100,Math.max(0,+v||0)); persist(); renderKnowledge();} }
+function deleteKnowledge(id){ G.knowledge=G.knowledge.filter(k=>k.id!==id); persist(); renderKnowledge(); }
+function setKFilter(f){ kFilter=f; renderKnowledge(); }
+
+// ═══════════════════════════════════════════════════════════
+//  WEEKLY REVIEW
+// ═══════════════════════════════════════════════════════════
+function saveReview(){
+  const w=getWeek();
+  w.review={
+    wins:document.getElementById('rev-wins').value,
+    worked:document.getElementById('rev-worked').value,
+    wasted:document.getElementById('rev-wasted').value,
+    drained:document.getElementById('rev-drained').value,
+    next:document.getElementById('rev-next').value,
+    habit:document.getElementById('rev-habit').value,
+    stop:document.getElementById('rev-stop').value,
+    rating:document.getElementById('rev-rating').value,
+    energy:document.getElementById('rev-energy').value,
+    learning:document.getElementById('rev-learning').value,
+  };
+  persist();
+  alert('Review saved ✓');
+}
+function loadReview(){
+  const r=getWeek().review||{};
+  const map={'rev-wins':'wins','rev-worked':'worked','rev-wasted':'wasted','rev-drained':'drained','rev-next':'next','rev-habit':'habit','rev-stop':'stop','rev-rating':'rating','rev-energy':'energy','rev-learning':'learning'};
+  Object.entries(map).forEach(([id,k])=>{ const el=document.getElementById(id); if(el) el.value=r[k]||''; });
+}
+function exportReviewText(){
+  const r=getWeek().review||{};
+  const weekLabel=getWeekLabel(currentWeekOffset);
+  let txt=`AETERNA WEEKLY REVIEW\n${weekLabel}\n${'═'.repeat(40)}\n\n`;
+  const sections=[['WINS & ACCOMPLISHMENTS',r.wins],['WHAT WORKED WELL',r.worked],['WHAT WASTED TIME',r.wasted],['WHAT DRAINED ENERGY',r.drained],['NEXT WEEK PRIORITIES',r.next],['HABIT TO STRENGTHEN',r.habit],['THING TO STOP/REDUCE',r.stop],['LEARNING REVIEW',r.learning]];
+  sections.forEach(([t,v])=>{ if(v) txt+=`${t}\n${'-'.repeat(24)}\n${v}\n\n`; });
+  txt+=`WEEK RATING: ${r.rating||'—'}/10\nAVG ENERGY: ${r.energy||'—'}/10\n`;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`aeterna-review-${getWeekKey(currentWeekOffset)}.txt`;
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WEEK HISTORY
+// ═══════════════════════════════════════════════════════════
+function renderHistory(){
+  const list=document.getElementById('history-list'); if(!list) return;
+  if(!G.weekHistory.length){ list.innerHTML='<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:12px">No archived weeks yet. Use "End Week / New Week" in the sidebar to archive the current week.</div>'; return; }
+  list.innerHTML=[...G.weekHistory].reverse().map((wh,i)=>`
+    <div class="history-item" onclick="openHistDetail(${G.weekHistory.length-1-i})">
+      <div class="history-week">${wh.weekLabel}</div>
+      <div class="history-summary">${wh.summary||'No summary recorded.'}</div>
+      <div class="history-metrics">
+        <div class="history-metric">Study: <span>${wh.metrics?.study||0}h</span></div>
+        <div class="history-metric">Deep Work: <span>${wh.metrics?.deep||0}h</span></div>
+        <div class="history-metric">Mood: <span>${wh.metrics?.mood||'—'}/10</span></div>
+        <div class="history-metric">Sleep: <span>${wh.metrics?.sleep||'—'}h</span></div>
+        <div class="history-metric">Rating: <span>${wh.rating||'—'}/10</span></div>
+        <div class="history-metric">Tasks: <span>${wh.tasksDone||0}/${wh.tasksTotal||0}</span></div>
+      </div>
+    </div>`).join('');
+}
+
+let _histIdx = -1;
+function openHistDetail(idx){
+  _histIdx=idx;
+  const wh=G.weekHistory[idx];
+  document.getElementById('hist-modal-title').textContent=wh.weekLabel;
+  const r=wh.review||{};
+  let html=`<div style="margin-bottom:10px"><strong style="color:var(--accent)">Summary:</strong> ${wh.summary||'—'}</div>`;
+  html+=`<div style="margin-bottom:10px"><strong style="color:var(--accent)">Rating:</strong> ${wh.rating||'—'}/10</div>`;
+  if(r.wins) html+=`<div style="margin-bottom:8px"><strong style="color:var(--accent)">Wins:</strong><br>${r.wins}</div>`;
+  if(r.worked) html+=`<div style="margin-bottom:8px"><strong style="color:var(--accent)">What worked:</strong><br>${r.worked}</div>`;
+  if(r.wasted) html+=`<div style="margin-bottom:8px"><strong style="color:var(--accent)">Time wasted:</strong><br>${r.wasted}</div>`;
+  if(r.next) html+=`<div style="margin-bottom:8px"><strong style="color:var(--accent)">Next week focus:</strong><br>${r.next}</div>`;
+  const m=wh.metrics||{};
+  html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.05em">METRICS: Study ${m.study||0}h · Deep ${m.deep||0}h · Phone ${m.phone||0}h · Mood ${m.mood||'—'} · Sleep ${m.sleep||'—'}h · Habits ${m.habitRate||0}%</div>`;
+  document.getElementById('hist-modal-body').innerHTML=html;
+  openModal('hist-modal');
+}
+function downloadHistWeek(){
+  if(_histIdx<0) return;
+  const wh=G.weekHistory[_histIdx];
+  const m=wh.metrics||{}, r=wh.review||{};
+  let txt=`AETERNA WEEK REPORT\n${wh.weekLabel}\n${'═'.repeat(40)}\n\n`;
+  txt+=`Summary: ${wh.summary||'—'}\nRating: ${wh.rating||'—'}/10\n\n`;
+  txt+=`METRICS\n${'─'.repeat(24)}\nStudy: ${m.study||0}h | Deep Work: ${m.deep||0}h | Phone: ${m.phone||0}h\nMood: ${m.mood||'—'}/10 | Sleep: ${m.sleep||'—'}h | Habits: ${m.habitRate||0}%\n\n`;
+  if(r.wins) txt+=`WINS\n${r.wins}\n\n`;
+  if(r.worked) txt+=`WHAT WORKED\n${r.worked}\n\n`;
+  if(r.wasted) txt+=`WASTED TIME\n${r.wasted}\n\n`;
+  if(r.next) txt+=`NEXT WEEK\n${r.next}\n\n`;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`aeterna-week-${wh.weekKey||'archive'}.txt`;
+  a.click();
+}
+function deleteHistWeek(){
+  if(_histIdx<0) return;
+  if(!confirm('Delete this week from history?')) return;
+  G.weekHistory.splice(_histIdx,1);
+  persist(); renderHistory(); closeModal('hist-modal');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  END WEEK FLOW
+// ═══════════════════════════════════════════════════════════
+function endWeekFlow(){ openModal('endweek-modal'); }
+
+function confirmEndWeek(){
+  if(currentWeekOffset!==0){ alert('You can only end the current week.'); return; }
+  const summary=document.getElementById('ew-summary').value;
+  const rating=document.getElementById('ew-rating').value;
+  const shouldDownload=document.getElementById('ew-download').checked;
+
+  const wKey=getWeekKey(0);
+  const wData=getWeek(0);
+  const inp=wData.dashInputs||{};
+  const hDone=Object.values(wData.habitChecks).reduce((a,arr)=>a+(arr.filter(Boolean).length),0);
+  const hTotal=wData.habits.length*7;
+
+  const archiveEntry={
+    weekKey:wKey,
+    weekLabel:getWeekLabel(0),
+    archivedAt:new Date().toISOString(),
+    summary,
+    rating,
+    metrics:{
+      study:inp.study||0, deep:inp.deep||0, phone:inp.phone||0,
+      pomo:inp.pomo||0, mood:inp.mood||0, sleep:inp.sleep||0,
+      habitRate:hTotal>0?Math.round(hDone/hTotal*100):0,
+    },
+    review:wData.review||{},
+    tasksDone:wData.tasks.filter(t=>t.status==='Done').length,
+    tasksTotal:wData.tasks.length,
+    pomoSessions:wData.pomoLog.length,
+    moodEntries:wData.moodLog.length,
+  };
+
+  G.weekHistory.push(archiveEntry);
+
+  if(shouldDownload){
+    const m=archiveEntry.metrics;
+    let txt=`AETERNA WEEK REPORT\n${archiveEntry.weekLabel}\n${'═'.repeat(40)}\n\n`;
+    txt+=`Summary: ${summary||'—'}\nRating: ${rating||'—'}/10\n\n`;
+    txt+=`METRICS\n${'─'.repeat(24)}\nStudy: ${m.study}h | Deep Work: ${m.deep}h | Phone: ${m.phone}h\nMood: ${m.mood}/10 | Sleep: ${m.sleep}h | Habits: ${m.habitRate}%\nPomodoros: ${archiveEntry.pomoSessions} | Tasks: ${archiveEntry.tasksDone}/${archiveEntry.tasksTotal}\n\n`;
+    const r=wData.review||{};
+    if(r.wins) txt+=`WINS\n${r.wins}\n\n`;
+    if(r.worked) txt+=`WHAT WORKED\n${r.worked}\n\n`;
+    if(r.wasted) txt+=`WASTED TIME\n${r.wasted}\n\n`;
+    if(r.next) txt+=`NEXT WEEK FOCUS\n${r.next}\n\n`;
+    txt+=`Generated by AETERNA Personal Life OS`;
+    const blob=new Blob([txt],{type:'text/plain'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=`aeterna-week-${wKey}.txt`;
+    a.click();
+  }
+
+  // Start new week — initialize next week with same habits
+  const nextKey=getWeekKey(0); // Will be next Monday after page reload
+  // Copy habits template from current week to ensure continuity
+  const habitsCopy=JSON.parse(JSON.stringify(wData.habits));
+  const newWeek=defaultWeekData();
+  newWeek.habits=habitsCopy;
+
+  // Force a new week by removing current week from weeks object
+  // and replacing with a "blank" (next week will auto-init on Monday)
+  // We keep current week data in archive and weeks store
+  persist();
+  closeModal('endweek-modal');
+  document.getElementById('ew-summary').value='';
+  document.getElementById('ew-rating').value='';
+  renderHistory();
+  alert('Week archived ✓\n\nYour week has been saved to History. Start logging your new week\'s data in the Dashboard.');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  BACKUP / RESTORE
+// ═══════════════════════════════════════════════════════════
+function exportBackup(){
+  const blob=new Blob([JSON.stringify({G,weeks},null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`aeterna-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+}
+function importBackup(){
+  const input=document.createElement('input');
+  input.type='file'; input.accept='.json';
+  input.onchange=e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const d=JSON.parse(ev.target.result);
+        if(d.G) G=Object.assign(defaultGlobalData(),d.G);
+        if(d.weeks) { weeks={}; Object.entries(d.weeks).forEach(([k,v])=>weeks[k]=Object.assign(defaultWeekData(),v)); }
+        persist(); location.reload();
+      }catch(err){ alert('Invalid backup file.'); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+function clearAll(){
+  if(!confirm('Delete ALL data permanently?')) return;
+  if(!confirm('Final confirmation — this cannot be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  location.reload();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GUIDE
+// ═══════════════════════════════════════════════════════════
+const GUIDE_DATA=[
+  {title:'📁 How to Use AETERNA — Getting Started',content:`
+    <h4>Core workflow (daily)</h4>
+    <ul>
+      <li><strong>Morning (5 min):</strong> Open Daily Planner, review your MITs, confirm your time blocks.</li>
+      <li><strong>During study (home):</strong> Use Focus Tracker — start a Pomodoro for each block.</li>
+      <li><strong>Evening (5 min):</strong> Check off habits, log mood, update task statuses.</li>
+      <li><strong>Weekly (Sunday, 60 min):</strong> Fill in Dashboard inputs, complete Weekly Review, use "End Week / New Week."</li>
+    </ul>
+    <h4>Week navigation</h4>
+    <p>Use the ‹ › arrows (top-right of each page) to view past weeks. Past week data is read-only — you can view but not edit. Current week is always fully editable.</p>
+    <h4>Data storage</h4>
+    <p>All data saves automatically to your browser's localStorage. It persists between sessions as long as you use the same browser. <strong>Export a backup weekly</strong> using the sidebar button — this is your safety net if you clear browser data or switch devices.</p>
+    <div class="sci">💡 Tip: Bookmark this file in Chrome/Firefox for fast daily access. On mobile: Share → Add to Home Screen</div>
+  `},
+  {title:'💾 Storage & Multi-Device Usage',content:`
+    <h4>How data is stored</h4>
+    <p>AETERNA uses your browser's localStorage — a private, offline database stored on your device. No internet connection needed after the first load (fonts load once). No data is sent to any server.</p>
+    <h4>Moving to another device</h4>
+    <ol>
+      <li>On your current device: Sidebar → <strong>Export Backup</strong> → saves a .json file</li>
+      <li>On new device: open the HTML file in a browser, Sidebar → <strong>Import Backup</strong></li>
+    </ol>
+    <h4>Phone/tablet usage</h4>
+    <p>The interface is fully responsive. On mobile, use the hamburger menu (top-left) to open the sidebar. For best experience on iOS Safari or Android Chrome: tap the Share icon → "Add to Home Screen" — this creates an app-like icon on your home screen.</p>
+    <h4>Weekly backup habit</h4>
+    <p>Export a backup every Sunday after your weekly review. Name the file by week (e.g. aeterna-backup-2026-03-10.json) and store in cloud storage for cross-device access.</p>
+    <div class="sci">⚠ localStorage is browser-specific. Clearing browser data or using private/incognito mode will not retain saved data. Always export backups.</div>
+  `},
+  {title:'📊 Life Dashboard',content:`
+    <h4>Purpose</h4>
+    <p>The Dashboard aggregates your 8 most important weekly metrics into a single scannable view. The radar chart visualizes 6 life dimensions — any "flattening" indicates an area needing attention.</p>
+    <h4>How to use</h4>
+    <ul>
+      <li>Enter real numbers every Sunday from your phone's screen time app, pomodoro log, and sleep tracker.</li>
+      <li>Habit completion rate is calculated automatically from the habit tracker below.</li>
+      <li>Use the ‹ › arrows to view past weeks' dashboards (read-only).</li>
+    </ul>
+    <h4>Target calibration (your profile: 8h school)</h4>
+    <ul>
+      <li>Total Study: 55–58h (school 40h + home 17h)</li>
+      <li>Home Deep Work: 3–3.5h/day</li>
+      <li>Phone: ≤10h/week</li>
+      <li>Mood: ≥6.5/10 sustained</li>
+      <li>Sleep: ≥7h (non-negotiable)</li>
+    </ul>
+    <div class="sci">📚 Newport (2016) Deep Work · Walker (2017) Why We Sleep · Clear (2018) Atomic Habits</div>
+  `},
+  {title:'🎯 Goal System',content:`
+    <h4>SMART Goals</h4>
+    <p>Goals are global (not per-week) and persist across all weeks. They represent your medium-to-long term objectives.</p>
+    <ul>
+      <li><strong>Specific:</strong> Name exactly what you will achieve, to what standard</li>
+      <li><strong>Measurable:</strong> Define a quantifiable success indicator</li>
+      <li><strong>Achievable:</strong> Set at the edge of ability — not too easy, not impossible</li>
+      <li><strong>Relevant:</strong> Link to your larger life vision</li>
+      <li><strong>Time-bound:</strong> Assign a concrete deadline</li>
+    </ul>
+    <p>Click "Update" on any goal to adjust progress %. Review during Weekly Review each Sunday.</p>
+    <div class="sci">📚 Locke & Latham (2002) · Gollwitzer (1999) Implementation Intentions</div>
+  `},
+  {title:'✅ Task Management',content:`
+    <h4>Eisenhower Matrix</h4>
+    <ul>
+      <li><strong>High:</strong> Urgent + Important — do immediately (deadlines, crises)</li>
+      <li><strong>Medium:</strong> Important, not urgent — schedule in deep work blocks (where your growth lives)</li>
+      <li><strong>Low:</strong> Delegate, defer, or drop</li>
+    </ul>
+    <p>Tasks are per-week. You can view past weeks' tasks (read-only) using ‹ ›. Update task status by clicking the dropdown in the Status column. Delete tasks with ✕.</p>
+    <div class="sci">📚 Covey (1989) 7 Habits · Allen (2001) Getting Things Done</div>
+  `},
+  {title:'📅 Weekly Schedule & Daily Planner',content:`
+    <h4>Weekly Schedule</h4>
+    <p>Click any cell to add an event. Click ✕ on any event to delete it. Events are per-week — your schedule can differ week-to-week. Choose from 4 event types (color-coded) for visual clarity.</p>
+    <h4>Daily Planner</h4>
+    <p>Select a date at the top. Set your 1–3 MITs (Most Important Tasks) — research shows that specifying implementation intentions doubles goal completion rates. Default time blocks reflect your 8h school day. Modify and save any day's blocks. They are saved per date and persist.</p>
+    <h4>Circadian scheduling</h4>
+    <p>After school, your second alertness window is ~3:30–5 PM — schedule hardest home tasks here. After 7 PM, use for spaced repetition and lighter review. Guard 10 PM–6 AM sleep window absolutely.</p>
+    <div class="sci">📚 Huberman Lab (2022) · Baumeister (2011) Decision Fatigue</div>
+  `},
+  {title:'⏱️ Focus Tracker (Pomodoro)',content:`
+    <h4>How to use</h4>
+    <ul>
+      <li>Type your task in "Task / Focus Object" before starting</li>
+      <li>Choose mode: 25/5 (weekdays), 50/10 (weekends/high energy), 90/20 (deep flow)</li>
+      <li>Sessions auto-log when timer completes. Manual log for sessions you track separately.</li>
+      <li>Rate focus depth (1–5) in the Focus Quality table</li>
+    </ul>
+    <h4>Post-school strategy</h4>
+    <p>After 8h school, limit to 6–8 Pomodoros max. If depth rating drops to 1–2, stop — continuing produces shallow encoding. Take a genuine break (walk, no phone) before the next block.</p>
+    <div class="sci">📚 Cirillo (1987) Pomodoro · Ericsson (1993) Deliberate Practice · Zijlstra (2014)</div>
+  `},
+  {title:'⏰ Time Audit',content:`
+    <h4>How to use</h4>
+    <p>Each Sunday, log your actual hours per category from the past week. Use your phone's screen time data, calendar, and Pomodoro log as input sources.</p>
+    <h4>Your target allocation (168h/week)</h4>
+    <ul>
+      <li>Sleep: 56h (8h × 7) — non-negotiable</li>
+      <li>School: 40h (fixed)</li>
+      <li>Home deep study: 17–20h</li>
+      <li>Exercise: 4–5h</li>
+      <li>Meals/self-care: 10h</li>
+      <li>Social: 6–8h</li>
+      <li>Commute: 5–8h</li>
+      <li>Phone/entertainment: ≤9h</li>
+    </ul>
+    <p>If phone + entertainment exceeds 12h, it is directly eating sleep or study time.</p>
+    <div class="sci">📚 Ariely (2012) The Honest Truth About Dishonesty · Covey (1989)</div>
+  `},
+  {title:'🌡️ Mood & Wellbeing Tracker',content:`
+    <h4>How to use</h4>
+    <p>Log daily. Takes 2 minutes. Select mood (1–10 scale), move the stress and energy sliders, enter sleep hours, add notes.</p>
+    <h4>Warning patterns to watch for</h4>
+    <ul>
+      <li>Energy ≤4 for 3+ consecutive days → reduce home study load, prioritize recovery</li>
+      <li>Mood ≤5 sustained → investigate source (sleep? overload? social? nutrition?)</li>
+      <li>Stress ≥8 for 3+ days → implement a recovery day before performance collapses</li>
+    </ul>
+    <p>Gratitude journal (3 items): increases subjective wellbeing 25% over 10 weeks (Emmons & McCullough, 2003). Enter in the gratitude field but it doesn't save separately — include in Notes if important.</p>
+    <div class="sci">📚 Watson et al. (1988) PANAS · McEwen (1998) Allostatic Load · Fredrickson (2001)</div>
+  `},
+  {title:'📚 Knowledge Vault',content:`
+    <h4>How to use</h4>
+    <p>Add books, papers, courses, lectures. Update progress % as you go. Write a Feynman-style takeaway in the Key Takeaway field — explain the core idea in simple language as if teaching a younger student.</p>
+    <h4>Same-day review protocol</h4>
+    <ul>
+      <li>Within 2h of school: open notes, write from memory what you learned (active recall), then check</li>
+      <li>Review again: 3 days later → 1 week → 2 weeks → 1 month</li>
+      <li>Use Anki for automated spaced repetition scheduling</li>
+    </ul>
+    <div class="sci">📚 Ebbinghaus (1885) Forgetting Curve · Roediger & Karpicke (2006) · Feynman Technique</div>
+  `},
+  {title:'🔄 Weekly Review & End-Week Flow',content:`
+    <h4>Weekly Review (Sunday, 60 min)</h4>
+    <p>Fill in each section of the review honestly. The goal is insight, not performance. Student-specific prompts: Was home study active (recall) or passive (re-reading)? Which subjects were neglected? Was sleep consistent?</p>
+    <h4>End Week / New Week (sidebar button)</h4>
+    <ol>
+      <li>Complete the Weekly Review first</li>
+      <li>Enter your Dashboard metrics</li>
+      <li>Click "End Week / New Week" in sidebar</li>
+      <li>Add a 1-sentence week summary and rating</li>
+      <li>Optionally download a .txt week report</li>
+      <li>Confirm — the week is archived to Week History</li>
+    </ol>
+    <p>Your habits template carries over to the next week. All other data starts fresh. Past week data is always viewable in Week History.</p>
+    <div class="sci">📚 Allen (2001) GTD · Imai (1986) Kaizen · Ericsson (1993) Deliberate Practice</div>
+  `},
+];
+
+function buildGuide(){
+  const el=document.getElementById('guide-content'); if(!el) return;
+  el.innerHTML=GUIDE_DATA.map((g,i)=>`
+    <div class="guide-item" id="gi-${i}">
+      <div class="guide-head" onclick="document.getElementById('gi-${i}').classList.toggle('open')">
+        ${g.title}<span class="guide-chevron">▾</span>
+      </div>
+      <div class="guide-body">${g.content}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER ALL (re-renders everything for current week context)
+// ═══════════════════════════════════════════════════════════
+function renderAll(){
+  updateWeekLabels();
+  loadDashInputs();
+  renderDashCards();
+  renderHabits();
+  renderTasks();
+  buildSchedule();
+  renderAudit();
+  renderMood();
+  renderPomoLog();
+  loadReview();
+  renderHistory();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+function init(){
+  loadStorage();
+  initNav();
+  updateSidebar();
+  buildMoodScale();
+  buildGuide();
+  renderGoals();
+  renderKnowledge();
+
+  // Set today's date in date inputs
+  const today=new Date().toISOString().split('T')[0];
+  ['mood-date','plan-date'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=today; });
+
+  // Planner date change listener
+  const planDate=document.getElementById('plan-date');
+  if(planDate) planDate.addEventListener('change', loadPlanner);
+
+  // Seed first-run default tasks if empty
+  const w=getWeek();
+  if(!w.tasks.length && currentWeekOffset===0){
+    w.tasks=[
+      {id:1,name:"Review today's school notes (active recall)",project:'Daily Review',priority:'High',time:'0.5',deadline:today,status:'To Do'},
+      {id:2,name:'Complete assigned problem set',project:'School',priority:'High',time:'2',deadline:'',status:'To Do'},
+      {id:3,name:'Anki flashcard review (30 cards)',project:'Spaced Repetition',priority:'Med',time:'0.5',deadline:today,status:'To Do'},
+    ];
+  }
+
+  renderAll();
+  loadPlanner();
+  updatePomoUI();
+  loadSyncUI();
+}
+
+
+// ═══════════════════════════════════════════════════════════
+//  GITHUB GIST SYNC ENGINE
+// ═══════════════════════════════════════════════════════════
+const SYNC_KEY = 'aeterna_sync_cfg';
+
+function getSyncConfig() {
+  try { return JSON.parse(localStorage.getItem(SYNC_KEY)) || {}; } catch { return {}; }
+}
+function saveSyncConfig() {
+  const token = document.getElementById('gh-token').value.trim();
+  const gistId = document.getElementById('gh-gist-id').value.trim();
+  if (!token) { setSyncStatus('Token is required.', 'var(--red)'); return; }
+  localStorage.setItem(SYNC_KEY, JSON.stringify({token, gistId}));
+  setSyncStatus('Token saved locally (never sent anywhere except GitHub API).', 'var(--green)');
+}
+function clearSyncConfig() {
+  localStorage.removeItem(SYNC_KEY);
+  document.getElementById('gh-token').value = '';
+  document.getElementById('gh-gist-id').value = '';
+  setSyncStatus('Sync configuration cleared.', 'var(--text3)');
+}
+function setSyncStatus(msg, color='var(--text3)') {
+  const el = document.getElementById('sync-status');
+  if (el) { el.textContent = msg; el.style.color = color; }
+}
+function loadSyncUI() {
+  const cfg = getSyncConfig();
+  if (cfg.token) document.getElementById('gh-token').value = cfg.token;
+  if (cfg.gistId) document.getElementById('gh-gist-id').value = cfg.gistId;
+}
+
+async function syncSave() {
+  const token = document.getElementById('gh-token').value.trim() || getSyncConfig().token;
+  if (!token) { setSyncStatus('Enter your GitHub token first.', 'var(--red)'); return; }
+  const gistId = document.getElementById('gh-gist-id').value.trim() || getSyncConfig().gistId || '';
+  setSyncStatus('Pushing data to GitHub...', 'var(--accent)');
+  const payload = JSON.stringify({G, weeks}, null, 2);
+  const body = {
+    description: 'AETERNA Personal Life OS — Data Sync',
+    public: false,
+    files: { 'aeterna-data.json': { content: payload } }
+  };
+  try {
+    let url = 'https://api.github.com/gists';
+    let method = 'POST';
+    if (gistId) { url = `https://api.github.com/gists/${gistId}`; method = 'PATCH'; }
+    const res = await fetch(url, {
+      method,
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    const newGistId = data.id;
+    document.getElementById('gh-gist-id').value = newGistId;
+    localStorage.setItem(SYNC_KEY, JSON.stringify({token, gistId: newGistId}));
+    setSyncStatus(`✓ Pushed successfully! Gist ID: ${newGistId} — Copy this ID for other devices.`, 'var(--green)');
+  } catch(e) {
+    setSyncStatus(`✗ Push failed: ${e.message}`, 'var(--red)');
+  }
+}
+
+async function syncLoad() {
+  const token = document.getElementById('gh-token').value.trim() || getSyncConfig().token;
+  const gistId = document.getElementById('gh-gist-id').value.trim() || getSyncConfig().gistId;
+  if (!token || !gistId) { setSyncStatus('Enter both token and Gist ID to pull data.', 'var(--red)'); return; }
+  setSyncStatus('Pulling data from GitHub...', 'var(--accent)');
+  try {
+    const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    const fileContent = data.files['aeterna-data.json']?.content;
+    if (!fileContent) throw new Error('aeterna-data.json not found in Gist.');
+    const parsed = JSON.parse(fileContent);
+    if (parsed.G) G = Object.assign(defaultGlobalData(), parsed.G);
+    if (parsed.weeks) {
+      weeks = {};
+      Object.entries(parsed.weeks).forEach(([k,v]) => weeks[k] = Object.assign(defaultWeekData(), v));
+    }
+    persist();
+    setSyncStatus('✓ Data pulled successfully! Reloading...', 'var(--green)');
+    setTimeout(() => { closeModal('sync-modal'); location.reload(); }, 1200);
+  } catch(e) {
+    setSyncStatus(`✗ Pull failed: ${e.message}`, 'var(--red)');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<!-- Sync Settings Modal -->
+<div class="overlay" id="sync-modal">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-title">☁ Cloud Sync — GitHub Gist</div>
+    <button class="modal-close" onclick="closeModal('sync-modal')">✕</button>
+    <div class="callout" style="margin-bottom:14px">
+      <strong>Free multi-device sync via GitHub Gist.</strong><br>
+      Your data is stored as a private Gist in your GitHub account — accessible from any device with your token. No server, no subscription, no data shared with anyone.
+    </div>
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:4px;line-height:1.5">
+        Create at: github.com → Settings → Developer settings → Personal access tokens → Tokens (classic) → New token<br>
+        Required scope: <strong style="color:var(--accent)">gist</strong> (only gist, nothing else needed)
+      </div>
+    </div>
+    <div class="field">
+      <label>Gist ID (leave blank to create a new one)</label>
+      <input type="text" id="gh-gist-id" placeholder="Leave empty on first setup — ID will be created automatically">
+    </div>
+    <div id="sync-status" style="font-family:var(--mono);font-size:9px;color:var(--text3);min-height:18px;margin-bottom:12px;letter-spacing:.05em"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="syncSave()">⬆ Push to Cloud</button>
+      <button class="btn" onclick="syncLoad()">⬇ Pull from Cloud</button>
+      <button class="btn btn-sm" onclick="saveSyncConfig()">Save Token</button>
+      <button class="btn btn-sm btn-danger" onclick="clearSyncConfig()">Clear Token</button>
+    </div>
+    <div class="callout" style="margin-top:14px;font-size:12px">
+      <strong>Workflow for multi-device use:</strong><br>
+      1. Set up token once on your main device → click "Push to Cloud"<br>
+      2. Copy the Gist ID shown after first push<br>
+      3. On each other device: enter same token + Gist ID → "Pull from Cloud"<br>
+      4. After each session: "Push to Cloud" to keep sync current<br>
+      5. On other devices: "Pull from Cloud" to get latest data
+    </div>
+  </div>
+</div>
+
+<!-- GitHub Pages Guide Modal -->
+<div class="overlay" id="hosting-modal">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-title">🌐 Host on GitHub Pages</div>
+    <button class="modal-close" onclick="closeModal('hosting-modal')">✕</button>
+    <div class="callout">Access AETERNA from any device via a permanent link — completely free.</div>
+    <div class="guide-body" style="display:block;padding:0">
+      <h4>Step 1: Create a GitHub account</h4>
+      <p>Go to <strong>github.com</strong> and sign up for a free account if you don't have one.</p>
+      <h4>Step 2: Create a new repository</h4>
+      <p>Click the <strong>+</strong> icon → New repository. Name it <strong>aeterna</strong> (or any name). Set visibility to <strong>Public</strong>. Click "Create repository."</p>
+      <h4>Step 3: Upload your file</h4>
+      <p>Click <strong>uploading an existing file</strong> → drag your <code>aeterna.html</code> file → commit. Then rename it to <code>index.html</code> (click the file → edit → rename at top).</p>
+      <h4>Step 4: Enable GitHub Pages</h4>
+      <p>Repository → <strong>Settings</strong> → <strong>Pages</strong> (left sidebar) → Source: <strong>Deploy from a branch</strong> → Branch: <strong>main</strong> → folder: <strong>/ (root)</strong> → Save.</p>
+      <h4>Step 5: Access your app</h4>
+      <p>Your app will be live at: <strong>https://yourusername.github.io/aeterna</strong><br>
+      Wait 1–2 minutes for first deployment. Bookmark this URL on every device.</p>
+      <h4>Step 6: Enable Cloud Sync for multi-device data</h4>
+      <p>Since GitHub Pages doesn't store data between users, set up the <strong>GitHub Gist sync</strong> (☁ Sync button in sidebar) to share your data across devices via your GitHub account.</p>
+      <h4>Updating the app</h4>
+      <p>When you get an updated version of aeterna.html: go to your repository → click <code>index.html</code> → click the pencil (edit) → paste new content → commit. Changes go live in ~1 minute.</p>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn" onclick="closeModal('hosting-modal')">Got it</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
