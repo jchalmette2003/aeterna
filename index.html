@@ -28,7 +28,7 @@
 /* ═══ RESET ═══ */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:18px;line-height:1.65;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--serif);font-size:19px;line-height:1.7;min-height:100vh;overflow-x:hidden}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{font-family:var(--serif)}
 ::-webkit-scrollbar{width:3px;height:3px}
@@ -55,11 +55,11 @@ input,select,textarea{font-family:var(--serif)}
 .week-bar-fill{height:100%;background:var(--accent);border-radius:1px;transition:width .6s ease}
 
 .nav-section{padding:12px 10px 0}
-.nav-label{font-family:var(--mono);font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--text4);padding:0 8px;margin-bottom:4px}
+.nav-label{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--text4);padding:0 8px;margin-bottom:4px}
 .nav-item{
   display:flex;align-items:center;gap:9px;padding:7px 10px;
-  border-radius:var(--r);cursor:pointer;font-family:var(--serif);font-size:14px;
-  color:var(--text3);border:1px solid transparent;margin-bottom:1px;
+  border-radius:var(--r);cursor:pointer;font-family:var(--serif);font-size:15px;
+  color:var(--text3);border:1px solid transparent;margin-bottom:2px;
   transition:all var(--trans);user-select:none;
 }
 .nav-item:hover{background:var(--bg3);color:var(--text2)}
@@ -98,8 +98,8 @@ input,select,textarea{font-family:var(--serif)}
 
 /* ═══ PAGE HEADER ═══ */
 .page-header{margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.page-title{font-family:var(--display);font-size:30px;font-weight:400;color:var(--text);letter-spacing:.02em}
-.page-sub{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:4px}
+.page-title{font-family:var(--display);font-size:34px;font-weight:400;color:var(--text);letter-spacing:.02em}
+.page-sub{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.2em;text-transform:uppercase;margin-top:4px}
 .week-selector{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .week-nav{
   width:28px;height:28px;border-radius:var(--r);border:1px solid var(--border2);
@@ -112,7 +112,7 @@ input,select,textarea{font-family:var(--serif)}
 /* ═══ SECTION ═══ */
 .section{margin-bottom:32px}
 .section-title{
-  font-family:var(--mono);font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;
   color:var(--accent);margin-bottom:14px;
   display:flex;align-items:center;gap:10px;
 }
@@ -123,7 +123,7 @@ input,select,textarea{font-family:var(--serif)}
   background:var(--bg3);border-left:3px solid var(--accent);
   border-radius:0 var(--r) var(--r) 0;
   padding:12px 16px;margin-bottom:16px;
-  font-size:14px;color:var(--text2);line-height:1.7;
+  font-size:15px;color:var(--text2);line-height:1.8;
 }
 .callout strong{color:var(--accent)}
 .callout.warn{border-color:var(--red)}
@@ -137,10 +137,10 @@ input,select,textarea{font-family:var(--serif)}
 /* ═══ CARD ═══ */
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:border-color var(--trans)}
 .card:hover{border-color:var(--border2)}
-.card-label{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
-.card-val{font-family:var(--display);font-size:26px;font-weight:400;color:var(--text);line-height:1}
+.card-label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.card-val{font-family:var(--display);font-size:30px;font-weight:400;color:var(--text);line-height:1}
 .card-val span{font-family:var(--mono);font-size:11px;color:var(--text3);font-weight:300}
-.card-note{font-family:var(--mono);font-size:9px;color:var(--text3);margin-top:5px}
+.card-note{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:5px}
 .pbar{height:2px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
 .pfill{height:100%;border-radius:2px;transition:width .5s ease}
 
@@ -149,7 +149,7 @@ input,select,textarea{font-family:var(--serif)}
 label{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:5px}
 input[type=text],input[type=number],input[type=date],input[type=time],select,textarea{
   background:var(--bg);border:1px solid var(--border);border-radius:var(--r);
-  color:var(--text);font-family:var(--serif);font-size:15px;
+  color:var(--text);font-family:var(--serif);font-size:16px;
   padding:8px 11px;outline:none;transition:border-color var(--trans);width:100%;
 }
 input:focus,select:focus,textarea:focus{border-color:var(--accent2)}
@@ -162,7 +162,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .btn{
   display:inline-flex;align-items:center;gap:7px;padding:7px 16px;
   border-radius:var(--r);border:1px solid var(--border2);background:var(--bg4);
-  color:var(--text2);font-family:var(--mono);font-size:9px;letter-spacing:.14em;
+  color:var(--text2);font-family:var(--mono);font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;transition:all var(--trans);cursor:pointer;
 }
 .btn:hover{background:var(--bg3);color:var(--accent);border-color:var(--accent2)}
@@ -175,14 +175,14 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 
 /* ═══ TABLE ═══ */
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px}
-.tbl th{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--border);font-weight:400}
-.tbl td{padding:10px 11px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;font-size:14px}
+.tbl th{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--border);font-weight:400}
+.tbl td{padding:10px 11px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;font-size:15px}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:var(--bg4)}
 .tbl-wrap{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 
 /* ═══ BADGES ═══ */
-.badge{display:inline-block;padding:2px 7px;border-radius:2px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
+.badge{display:inline-block;padding:2px 7px;border-radius:2px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border:1px solid}
 .b-high{color:var(--red);border-color:var(--red);background:rgba(160,48,32,.07)}
 .b-med{color:var(--accent);border-color:var(--accent2);background:rgba(139,94,26,.07)}
 .b-low{color:var(--green);border-color:var(--green);background:rgba(58,110,64,.07)}
@@ -220,7 +220,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 /* ═══ HABIT TRACKER ═══ */
 .habit-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
 .habit-row:last-child{border-bottom:none}
-.habit-name{flex:1;font-size:14px;color:var(--text2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.habit-name{flex:1;font-size:15px;color:var(--text2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .habit-days{display:flex;gap:3px;flex-shrink:0}
 .hcheck{
   width:24px;height:24px;border-radius:2px;border:1px solid var(--border2);
@@ -235,8 +235,8 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .pomo-ring{width:176px;height:176px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:20px}
 .pomo-ring svg{position:absolute;top:-2px;left:-2px;width:180px;height:180px;transform:rotate(-90deg)}
 .pomo-ring circle{fill:none;stroke-width:2}
-.pomo-time{font-family:var(--display);font-size:40px;font-weight:400;color:var(--text);position:relative;z-index:1;letter-spacing:.04em}
-.pomo-mode{font-family:var(--mono);font-size:9px;letter-spacing:.25em;color:var(--text3);text-transform:uppercase;margin-bottom:16px}
+.pomo-time{font-family:var(--display);font-size:44px;font-weight:400;color:var(--text);position:relative;z-index:1;letter-spacing:.04em}
+.pomo-mode{font-family:var(--mono);font-size:10px;letter-spacing:.25em;color:var(--text3);text-transform:uppercase;margin-bottom:16px}
 .pomo-dots{display:flex;gap:7px;margin-top:14px}
 .pdot{width:7px;height:7px;border-radius:50%;background:var(--border2);border:1px solid var(--border);transition:all .2s}
 .pdot.on{background:var(--accent);border-color:var(--accent)}
@@ -252,7 +252,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 .mood-btn.on{background:var(--bg4);border-color:var(--accent);color:var(--accent)}
 
 /* ═══ SCHEDULE ═══ */
-.sch-grid{display:grid;grid-template-columns:56px repeat(7,1fr);overflow:hidden;border:1px solid var(--border);border-radius:var(--r)}
+.sch-grid{display:grid;grid-template-columns:56px repeat(7,1fr);overflow:hidden;border:1px solid var(--border);border-radius:var(--r);min-width:500px}
 .sch-head{background:var(--bg4);padding:8px 4px;text-align:center;font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border)}
 .sch-time{background:var(--bg4);padding:6px 4px;font-family:var(--mono);font-size:8px;color:var(--text3);border-bottom:1px solid var(--border);border-right:1px solid var(--border);text-align:right;white-space:nowrap}
 .sch-cell{padding:3px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);min-height:32px;cursor:pointer;transition:background .1s;position:relative}
@@ -279,7 +279,7 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 
 /* ═══ AUDIT BARS ═══ */
 .audit-row{display:flex;align-items:center;gap:11px;margin-bottom:9px}
-.audit-lbl{font-size:13px;color:var(--text2);width:160px;flex-shrink:0}
+.audit-lbl{font-size:14px;color:var(--text2);width:160px;flex-shrink:0}
 .audit-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
 .audit-fill{height:100%;border-radius:3px;transition:width .5s ease}
 .audit-val{font-family:var(--mono);font-size:9px;color:var(--text3);width:40px;text-align:right}
@@ -291,33 +291,104 @@ input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer}
 
 /* ═══ GUIDE ═══ */
 .guide-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden}
-.guide-head{padding:13px 16px;font-family:var(--display);font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--text);user-select:none;transition:color var(--trans)}
+.guide-head{padding:13px 16px;font-family:var(--display);font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--text);user-select:none;transition:color var(--trans)}
 .guide-head:hover{color:var(--accent)}
 .guide-chevron{transition:transform .2s;color:var(--text3);font-size:11px}
 .guide-item.open .guide-chevron{transform:rotate(180deg)}
-.guide-body{display:none;padding:0 16px 16px;font-size:13px;color:var(--text2);line-height:1.85}
+.guide-body{display:none;padding:0 16px 20px;font-size:15px;color:var(--text2);line-height:1.9}
 .guide-item.open .guide-body{display:block}
-.guide-body h4{font-family:var(--mono);font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:13px 0 5px}
-.guide-body p{margin-bottom:9px}
+.guide-body h4{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:16px 0 7px}
+.guide-body p{margin-bottom:11px}
 .guide-body ul{padding-left:18px;margin-bottom:9px}
-.guide-body li{margin-bottom:4px}
-.sci{font-family:var(--mono);font-size:8px;color:var(--text3);border:1px solid var(--border);border-radius:2px;padding:3px 8px;display:inline-block;margin-top:4px}
+.guide-body li{margin-bottom:6px}
+.sci{font-family:var(--mono);font-size:9px;color:var(--text3);border:1px solid var(--border);border-radius:2px;padding:5px 10px;display:block;margin-top:10px;line-height:1.6}
 
 /* ═══ WEEK HISTORY PANEL ═══ */
 .history-item{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:7px;cursor:pointer;transition:border-color var(--trans)}
 .history-item:hover{border-color:var(--accent2)}
-.history-week{font-family:var(--mono);font-size:9px;color:var(--accent);letter-spacing:.1em}
-.history-summary{font-size:13px;color:var(--text2);margin-top:4px}
+.history-week{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.1em}
+.history-summary{font-size:14px;color:var(--text2);margin-top:4px}
 .history-metrics{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-.history-metric{font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:.05em}
+.history-metric{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.05em}
 .history-metric span{color:var(--text2)}
 
 /* ═══ REVIEW ═══ */
 .review-block{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:10px}
-.review-block-title{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.review-block-title{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 
 /* ═══ RADAR CANVAS ═══ */
 canvas{display:block}
+/* ═══ KNOWLEDGE GALLERY ═══ */
+.k-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.k-gallery-card{
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  cursor:pointer;transition:all .15s;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.k-gallery-card:hover{border-color:var(--accent2);box-shadow:var(--shadow)}
+.k-gallery-cover{
+  height:90px;display:flex;align-items:center;justify-content:center;
+  font-size:36px;background:var(--bg4);border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+.k-gallery-body{padding:12px;flex:1;display:flex;flex-direction:column;gap:5px}
+.k-gallery-title{font-family:var(--display);font-size:15px;color:var(--text);line-height:1.3;font-weight:500}
+.k-gallery-author{font-family:var(--mono);font-size:8px;color:var(--text3);letter-spacing:.08em}
+.k-gallery-foot{display:flex;gap:5px;align-items:center;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+.k-list-row{
+  display:flex;align-items:center;gap:12px;padding:10px 14px;
+  background:var(--bg3);border:1px solid var(--border);border-radius:4px;
+  margin-bottom:5px;cursor:pointer;transition:border-color .12s;
+}
+.k-list-row:hover{border-color:var(--accent2)}
+.k-list-icon{font-size:20px;flex-shrink:0}
+.k-list-info{flex:1;min-width:0}
+.k-list-title{font-size:15px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.k-list-meta{font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:2px}
+
+/* ═══ RICH EDITOR (Knowledge Note Modal) ═══ */
+.editor-toolbar{
+  display:flex;gap:3px;padding:8px 10px;background:var(--bg4);
+  border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;
+}
+.editor-btn{
+  padding:4px 8px;border-radius:3px;border:1px solid transparent;
+  background:none;color:var(--text2);font-family:var(--mono);font-size:10px;
+  cursor:pointer;transition:all .1s;
+}
+.editor-btn:hover{background:var(--bg3);border-color:var(--border2)}
+.editor-btn.active{background:var(--accent2);color:var(--bg);border-color:var(--accent)}
+.editor-sep{width:1px;height:18px;background:var(--border2);margin:0 3px}
+.editor-select{
+  padding:3px 6px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:3px;color:var(--text2);font-family:var(--mono);font-size:10px;
+}
+.rich-editor{
+  min-height:320px;max-height:480px;overflow-y:auto;
+  padding:16px 20px;outline:none;font-family:var(--serif);font-size:16px;
+  line-height:1.75;color:var(--text);background:var(--bg);
+  border:none;
+}
+.rich-editor:focus{outline:none}
+.rich-editor:empty:before{content:attr(data-placeholder);color:var(--text4);font-style:italic;pointer-events:none}
+.rich-editor:focus:empty:before{display:none}
+.rich-editor h1{font-family:var(--display);font-size:26px;margin:12px 0 6px;color:var(--text)}
+.rich-editor h2{font-family:var(--display);font-size:20px;margin:10px 0 5px;color:var(--text)}
+.rich-editor h3{font-family:var(--display);font-size:16px;margin:8px 0 4px;color:var(--accent)}
+.rich-editor blockquote{border-left:3px solid var(--accent);padding-left:14px;color:var(--text2);font-style:italic;margin:10px 0}
+.rich-editor ul,.rich-editor ol{padding-left:22px;margin:6px 0}
+.rich-editor li{margin-bottom:3px}
+.rich-editor code{background:var(--bg4);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-family:var(--mono);font-size:13px}
+.rich-editor img{max-width:100%;border-radius:4px;margin:8px 0}
+.rich-editor hr{border:none;border-top:1px solid var(--border);margin:14px 0}
+.attach-list{padding:10px 14px;background:var(--bg4);border-top:1px solid var(--border)}
+.attach-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-family:var(--mono);font-size:9px;color:var(--text2)}
+.attach-item a{color:var(--accent);text-decoration:none}
+.attach-item a:hover{text-decoration:underline}
+.k-note-modal{max-width:800px;padding:0;width:calc(100vw - 32px);max-height:95vh;overflow-y:auto}
+.k-note-modal .modal-title{padding:16px 20px;border-bottom:1px solid var(--border);margin-bottom:0}
+.k-note-top{display:flex;gap:12px;padding:14px 20px;background:var(--bg3);border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
+
 .data-btn.sync-active { color: var(--green); border-color: var(--green); }
 .sync-badge { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-left: 4px; vertical-align: middle; }
 
@@ -389,8 +460,7 @@ canvas{display:block}
     <div class="nav-item" data-page="mood"><span class="nav-icon">◑</span>Mood & Wellbeing</div>
   </div>
   <div class="nav-section">
-    <div class="nav-label">Learning</div>
-    <div class="nav-item" data-page="knowledge"><span class="nav-icon">◪</span>Knowledge Vault</div>
+    <div class="nav-label">Review</div>
     <div class="nav-item" data-page="review"><span class="nav-icon">◧</span>Weekly Review</div>
     <div class="nav-item" data-page="history"><span class="nav-icon">◫</span>Week History</div>
   </div>
@@ -557,13 +627,21 @@ canvas{display:block}
       <button class="week-nav" onclick="shiftWeek(1)">›</button>
     </div>
   </div>
-  <div class="callout"><strong>Circadian alignment</strong> — Peak cognitive window post-school: ~3:30–5 PM (second alertness rise). After 7 PM, shift to spaced repetition and light review. Guard your 10 PM–6 AM sleep window. Click any cell to add a block — right-click to delete.</div>
-  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+  <div class="callout"><strong>Circadian alignment</strong> — Peak cognitive window post-school: ~3:30–5 PM (second alertness rise). After 7 PM, shift to spaced repetition and light review. Guard your 10 PM–6 AM sleep window. Click any cell to add an event — click ✕ on event to delete.</div>
+  <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
     <span style="font-family:var(--mono);font-size:9px;color:var(--text3);">Event types:</span>
     <span class="sch-evt t-school" style="display:inline-flex">School</span>
     <span class="sch-evt t-study" style="display:inline-flex">Deep Work</span>
     <span class="sch-evt t-break" style="display:inline-flex">Break/Exercise</span>
     <span class="sch-evt t-personal" style="display:inline-flex">Personal</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <label style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.1em">From</label>
+      <select id="sch-start-hr" onchange="rebuildSchedule()" style="width:80px;padding:4px 6px;font-size:12px">
+      </select>
+      <label style="font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.1em">To</label>
+      <select id="sch-end-hr" onchange="rebuildSchedule()" style="width:80px;padding:4px 6px;font-size:12px">
+      </select>
+    </div>
   </div>
   <div class="card" style="padding:0;overflow-x:auto">
     <div class="sch-grid" id="sch-grid"></div>
@@ -736,44 +814,9 @@ canvas{display:block}
 </div>
 
 <!-- ══════════════════════════════════════
-     KNOWLEDGE
+     REVIEW
 ══════════════════════════════════════ -->
-<div class="page" id="page-knowledge">
-  <div class="page-header">
-    <div><div class="page-title">Knowledge Vault</div><div class="page-sub">Books · Papers · Courses · Spaced Repetition</div></div>
-  </div>
-  <div class="callout"><strong>Same-day review rule</strong> — Review school notes within 2h of class using active recall (write from memory, then check). Retention jumps from ~30% to ~80% by exam (Roediger & Karpicke, 2006). Then: review again in 3 days → 1 week → 2 weeks → 1 month.</div>
-  <div class="section">
-    <div class="section-title">Add Resource</div>
-    <div class="card">
-      <div class="g2">
-        <div>
-          <div class="field"><label>Title</label><input type="text" id="k-title" placeholder="Book, paper, or course name"></div>
-          <div class="field"><label>Author / Source</label><input type="text" id="k-author" placeholder="e.g. Cal Newport"></div>
-          <div class="field"><label>Type</label><select id="k-type"><option>Book</option><option>Research Paper</option><option>Online Course</option><option>Lecture / Video</option><option>Article</option><option>Podcast</option></select></div>
-        </div>
-        <div>
-          <div class="field"><label>Status</label><select id="k-status"><option>To Read/Watch</option><option>In Progress</option><option>Completed</option><option>Reviewing</option></select></div>
-          <div class="field"><label>Progress (0–100%)</label><input type="number" id="k-prog" placeholder="e.g. 45" min="0" max="100"></div>
-          <div class="field"><label>Key Takeaway (Feynman technique)</label><textarea id="k-note" placeholder="Explain the core idea in simple terms..."></textarea></div>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="addKnowledge()">+ Add to Vault</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="section-title">Vault</div>
-    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-      <button class="btn btn-sm" onclick="setKFilter('all')">All</button>
-      <button class="btn btn-sm" onclick="setKFilter('Book')">Books</button>
-      <button class="btn btn-sm" onclick="setKFilter('Research Paper')">Papers</button>
-      <button class="btn btn-sm" onclick="setKFilter('Online Course')">Courses</button>
-    </div>
-    <div id="k-list"></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
+<!-- ══
      REVIEW
 ══════════════════════════════════════ -->
 <div class="page" id="page-review">
@@ -845,6 +888,7 @@ canvas{display:block}
      MODALS
 ═══════════════════════════════════════ -->
 
+
 <!-- Habit Modal -->
 <div class="overlay" id="habit-modal">
   <div class="modal">
@@ -892,6 +936,18 @@ canvas{display:block}
         <option value="t-school">School / Class</option>
         <option value="t-break">Break / Exercise</option>
         <option value="t-personal">Personal / Other</option>
+      </select>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Start Time</label><input type="time" id="sch-start"></div>
+      <div class="field"><label>End Time</label><input type="time" id="sch-end"></div>
+    </div>
+    <div class="field"><label>Day</label>
+      <select id="sch-day">
+        <option value="0">Monday</option><option value="1">Tuesday</option>
+        <option value="2">Wednesday</option><option value="3">Thursday</option>
+        <option value="4">Friday</option><option value="5">Saturday</option>
+        <option value="6">Sunday</option>
       </select>
     </div>
     <input type="hidden" id="sch-cell-key">
@@ -955,30 +1011,46 @@ const TOTAL_ARC = 547;
 // ═══════════════════════════════════════════════════════════
 //  WEEK UTILITIES
 // ═══════════════════════════════════════════════════════════
-let currentWeekOffset = 0; // 0 = current week, -1 = last week, etc.
+// ── Week origin: 2026-03-16 (Mon) is Week 1, offset 0 ──
+const WEEK_ORIGIN = new Date('2026-03-16T00:00:00');
+let currentWeekOffset = 0; // 0 = Week 1 (16 Mar), 1 = Week 2, etc.
 
 function getWeekKey(offset = 0) {
-  const d = new Date();
-  d.setDate(d.getDate() - d.getDay() + 1 + offset * 7); // Monday
+  const d = new Date(WEEK_ORIGIN);
+  d.setDate(d.getDate() + offset * 7);
   return d.toISOString().split('T')[0];
 }
 
 function getWeekLabel(offset = 0) {
-  const mon = new Date();
-  mon.setDate(mon.getDate() - mon.getDay() + 1 + offset * 7);
+  const mon = new Date(WEEK_ORIGIN);
+  mon.setDate(mon.getDate() + offset * 7);
   const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
   const fmt = d => d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  const wn = Math.ceil(((mon - new Date(mon.getFullYear(),0,1)) / 86400000 + 1) / 7);
-  return `W${wn}: ${fmt(mon)} – ${fmt(sun)}`;
+  const today = new Date();
+  const todayMon = new Date(today);
+  todayMon.setDate(today.getDate() - ((today.getDay()+6)%7));
+  todayMon.setHours(0,0,0,0);
+  const isLive = mon.getTime() === todayMon.getTime();
+  const tag = isLive ? ' · current' : '';
+  return `Week ${offset + 1}: ${fmt(mon)}\u2013${fmt(sun)}${tag}`;
+}
+
+function maxWeekOffset() {
+  const today = new Date();
+  const diffMs = today - WEEK_ORIGIN;
+  return Math.max(0, Math.floor(diffMs / (7 * 86400000)));
 }
 
 function shiftWeek(dir) {
-  if (dir === 1 && currentWeekOffset >= 0) return; // can't go to future
+  if (dir === -1 && currentWeekOffset <= 0) return;
+  if (dir === 1 && currentWeekOffset >= maxWeekOffset()) return;
   currentWeekOffset += dir;
   renderAll();
 }
 
-function isCurrentWeek() { return currentWeekOffset === 0; }
+function isCurrentWeek() {
+  return currentWeekOffset === maxWeekOffset();
+}
 
 // ═══════════════════════════════════════════════════════════
 //  STATE & STORAGE
@@ -1012,7 +1084,6 @@ function defaultWeekData() {
 function defaultGlobalData() {
   return {
     goals: [],
-    knowledge: [],
     plannerDays: {}, // {date: {mit1,mit2,mit3,morningIntent,eveReflect,energy,blocks}}
     weekHistory: [], // archived weeks
     savedAt: null,
@@ -1043,9 +1114,14 @@ function loadStorage() {
     const d = JSON.parse(raw);
     if (d.G) G = Object.assign(defaultGlobalData(), d.G);
     if (d.weeks) {
+      const ORIGIN = '2026-03-16';
       Object.entries(d.weeks).forEach(([k,v]) => {
-        weeks[k] = Object.assign(defaultWeekData(), v);
+        if (k >= ORIGIN) weeks[k] = Object.assign(defaultWeekData(), v); // skip weeks before origin
       });
+    }
+    // Strip week history entries before origin
+    if (G.weekHistory) {
+      G.weekHistory = G.weekHistory.filter(w => (w.weekKey||'') >= '2026-03-16');
     }
   } catch(e) { console.warn('Load failed', e); }
 }
@@ -1096,7 +1172,7 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 function updateSidebar() {
   const now = new Date();
   const day = now.getDay() === 0 ? 7 : now.getDay();
-  document.getElementById('sb-week').textContent = getWeekLabel(0);
+  document.getElementById('sb-week').textContent = getWeekLabel(1);
   document.getElementById('wbar').style.width = (day/7*100) + '%';
   if (G.savedAt) {
     const d = new Date(G.savedAt);
@@ -1416,6 +1492,12 @@ function buildSchedule() {
   if (!grid) return;
   const w = getWeek();
   const ro = !isCurrentWeek();
+  // Restore custom range if saved
+  if(w.schRange){schStartHr=w.schRange.s;schEndHr=w.schRange.e;}
+  const customHours=Array.from({length:schEndHr-schStartHr+1},(_,i)=>`${String(i+schStartHr).padStart(2,'0')}:00`);
+  // Sync selects
+  const ss=document.getElementById('sch-start-hr');const se=document.getElementById('sch-end-hr');
+  if(ss)ss.value=schStartHr; if(se)se.value=schEndHr;
   grid.innerHTML = '';
   // Header
   const blank = document.createElement('div');
@@ -1425,7 +1507,7 @@ function buildSchedule() {
     h.className='sch-head'; h.textContent=d; grid.appendChild(h);
   });
   // Rows
-  HOURS.forEach(hr => {
+  customHours.forEach(hr => {
     const tc = document.createElement('div');
     tc.className='sch-time'; tc.textContent=hr; grid.appendChild(tc);
     DAYS.forEach((_,di) => {
@@ -1436,7 +1518,8 @@ function buildSchedule() {
       if (ev) {
         const evEl = document.createElement('div');
         evEl.className=`sch-evt ${ev.type}`;
-        evEl.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis">${ev.name}</span>${ro?'':'<span class="sch-del" onclick="deleteSchEvent(event,\''+key+'\')">✕</span>'}`;
+        const timeLabel = (ev.start&&ev.end) ? `<span class="evt-time">${ev.start}–${ev.end}</span>` : '';
+        evEl.innerHTML = `${timeLabel}<span class="evt-name">${ev.name}</span>${ro?'':'<span class="sch-del" onclick="deleteSchEvent(event,\''+key+'\')">✕</span>'}`;
         cell.appendChild(evEl);
       }
       if (!ro) cell.addEventListener('click', e => { if (!e.target.classList.contains('sch-del')) openSchModal(key); });
@@ -1449,12 +1532,30 @@ let _schKey = '';
 function openSchModal(key) {
   _schKey = key;
   document.getElementById('sch-name').value = '';
+  // Pre-fill day and time from cell key (format: "dayIdx-HH:00")
+  if (key) {
+    const parts = key.split('-');
+    const dayIdx = parts[0];
+    const hr = parts.slice(1).join('-');
+    const hrNum = parseInt(hr);
+    const endHr = String(hrNum+1).padStart(2,'0')+':00';
+    document.getElementById('sch-day').value = dayIdx;
+    document.getElementById('sch-start').value = hr;
+    document.getElementById('sch-end').value = endHr;
+  }
   openModal('sch-modal');
 }
 function saveSchEvent() {
   const name = document.getElementById('sch-name').value.trim();
   if (!name) return;
-  getWeek().scheduleEvents[_schKey] = {name, type: document.getElementById('sch-type').value};
+  const type = document.getElementById('sch-type').value;
+  const start = document.getElementById('sch-start').value;
+  const end = document.getElementById('sch-end').value;
+  const day = document.getElementById('sch-day').value;
+  // Use custom time key if user changed time/day
+  const customKey = `${day}-${start}`;
+  const key = start && end ? customKey : _schKey;
+  getWeek().scheduleEvents[key] = {name, type, start: start||null, end: end||null};
   persist(); buildSchedule(); closeModal('sch-modal');
 }
 function deleteSchEvent(e, key) {
@@ -1744,41 +1845,140 @@ function drawMoodChart(log){
 // ═══════════════════════════════════════════════════════════
 //  KNOWLEDGE
 // ═══════════════════════════════════════════════════════════
-let kFilter='all';
-function addKnowledge(){
-  const title=document.getElementById('k-title').value.trim(); if(!title) return;
-  G.knowledge.push({
-    id:Date.now(), title,
-    author:document.getElementById('k-author').value||'—',
-    type:document.getElementById('k-type').value,
-    status:document.getElementById('k-status').value,
-    progress:+document.getElementById('k-prog').value||0,
-    note:document.getElementById('k-note').value,
-  });
-  ['k-title','k-author','k-prog','k-note'].forEach(id=>document.getElementById(id).value='');
-  persist(); renderKnowledge();
+function setKView(v){
+  kView=v;
+  document.getElementById('kv-gallery').classList.toggle('active',v==='gallery');
+  document.getElementById('kv-list').classList.toggle('active',v==='list');
 }
+
 function renderKnowledge(){
   const list=document.getElementById('k-list'); if(!list) return;
   const items=G.knowledge.filter(k=>kFilter==='all'||k.type===kFilter);
-  list.innerHTML=items.map(k=>`
-    <div class="kcard">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div class="kcard-title">${k.title}</div>
-        <div style="display:flex;gap:5px;flex-shrink:0">
-          <button class="btn btn-sm" onclick="updateKProgress(${k.id})">Update %</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteKnowledge(${k.id})" style="padding:2px 7px">✕</button>
+  if(!items.length){
+    list.innerHTML='<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:16px;text-align:center">Vault is empty. Click "+ Add Resource" to begin.</div>';
+    return;
+  }
+  const badgeCls=s=>s==='Completed'?'done':s==='In Progress'?'prog':s==='Reviewing'?'prog':'todo';
+
+  if(kView==='gallery'){
+    list.innerHTML='<div class="k-gallery">'+items.map(k=>`
+      <div class="k-gallery-card" onclick="openKModal(${k.id})">
+        <div class="k-gallery-cover" style="background:var(--bg4)">${K_ICONS[k.type]||'📌'}</div>
+        <div class="k-gallery-body">
+          <div class="k-gallery-title">${k.title}</div>
+          <div class="k-gallery-author">${k.author}</div>
+          <div class="k-gallery-foot">
+            <span class="tag">${k.type}</span>
+            <span class="badge b-${badgeCls(k.status)}">${k.status}</span>
+            <button class="btn btn-sm btn-danger" onclick="deleteKnowledge(${k.id},event)" style="padding:2px 6px;margin-left:auto">✕</button>
+          </div>
+          <div class="pbar" style="margin-top:6px"><div class="pfill" style="width:${k.progress}%;background:var(--accent)"></div></div>
+          <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:2px">${k.progress}%</div>
         </div>
-      </div>
-      <div class="kcard-meta"><span>${k.author}</span><span class="tag">${k.type}</span><span class="badge b-${k.status==='Completed'?'done':k.status==='In Progress'?'prog':'todo'}">${k.status}</span></div>
-      ${k.note?`<div style="margin-top:6px;font-size:12px;color:var(--text3);font-style:italic">${k.note}</div>`:''}
-      <div class="pbar" style="margin-top:8px"><div class="pfill" style="width:${k.progress}%;background:var(--accent)"></div></div>
-      <div style="font-family:var(--mono);font-size:8px;color:var(--text3);margin-top:3px">${k.progress}% complete</div>
-    </div>`).join('')||`<div style="font-family:var(--mono);font-size:10px;color:var(--text3);padding:10px">Vault is empty. Add your first resource above.</div>`;
+      </div>`).join('')+'</div>';
+  } else {
+    list.innerHTML=items.map(k=>`
+      <div class="k-list-row" onclick="openKModal(${k.id})">
+        <div class="k-list-icon">${K_ICONS[k.type]||'📌'}</div>
+        <div class="k-list-info">
+          <div class="k-list-title">${k.title}</div>
+          <div class="k-list-meta">${k.author} · ${k.type}</div>
+        </div>
+        <span class="badge b-${badgeCls(k.status)}">${k.status}</span>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--accent);width:36px;text-align:right">${k.progress}%</div>
+        <button class="btn btn-sm btn-danger" onclick="deleteKnowledge(${k.id},event)" style="padding:2px 6px">✕</button>
+      </div>`).join('');
+  }
 }
-function updateKProgress(id){ const k=G.knowledge.find(x=>x.id===id); if(!k) return; const v=prompt('New progress (0–100):',k.progress); if(v!==null){k.progress=Math.min(100,Math.max(0,+v||0)); persist(); renderKnowledge();} }
-function deleteKnowledge(id){ G.knowledge=G.knowledge.filter(k=>k.id!==id); persist(); renderKnowledge(); }
-function setKFilter(f){ kFilter=f; renderKnowledge(); }
+
+// ── Rich Editor Commands ──
+function edCmd(cmd,val=null){
+  document.getElementById('rich-editor').focus();
+  document.execCommand(cmd,false,val);
+}
+function edFontSize(val){ edCmd('fontSize',val); }
+function edFontName(val){ edCmd('fontName',val); }
+function edInsertHR(){ edCmd('insertHTML','<hr>'); }
+function edColor(){ const c=prompt('Hex color (e.g. #c9a96e):','#8b5e1a'); if(c) edCmd('foreColor',c); }
+
+// ── Attachments ──
+function attachFile(){
+  const input=document.createElement('input');
+  input.type='file';
+  input.onchange=e=>{
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const k=kEditId?G.knowledge.find(x=>x.id===kEditId):null;
+      if(!k){alert('Save the resource first before attaching files.');return;}
+      if(!k.attachments) k.attachments=[];
+      // Check size limit ~2MB in base64
+      if(ev.target.result.length>2.5*1024*1024){alert('File too large. Max ~2MB per attachment.');return;}
+      k.attachments.push({
+        name:file.name,
+        type:file.type,
+        data:ev.target.result,
+        size:Math.round(file.size/1024)+'KB',
+        addedAt:new Date().toISOString()
+      });
+      persist();
+      renderAttachList(k.attachments);
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function renderAttachList(attachments){
+  const el=document.getElementById('attach-list'); if(!el) return;
+  if(!attachments||!attachments.length){
+    el.innerHTML='<div style="font-family:var(--mono);font-size:9px;color:var(--text3)">No attachments. Click "Attach File" to add documents, images, PDFs.</div>';
+    return;
+  }
+  el.innerHTML=attachments.map((a,i)=>`
+    <div class="attach-item">
+      <span>📎</span>
+      <a href="${a.data}" download="${a.name}">${a.name}</a>
+      <span style="color:var(--text3)">${a.size}</span>
+      <button class="btn btn-sm btn-danger" onclick="removeAttach(${i})" style="padding:1px 6px;margin-left:auto">✕</button>
+    </div>`).join('');
+}
+
+function removeAttach(idx){
+  if(!kEditId) return;
+  const k=G.knowledge.find(x=>x.id===kEditId); if(!k) return;
+  k.attachments.splice(idx,1);
+  persist(); renderAttachList(k.attachments);
+}
+
+// ══════════════════════════════════════════
+//  SCHEDULE — CUSTOM TIME RANGE
+// ══════════════════════════════════════════
+let schStartHr=4, schEndHr=23;
+
+function initSchTimeSelects(){
+  const startEl=document.getElementById('sch-start-hr');
+  const endEl=document.getElementById('sch-end-hr');
+  if(!startEl||!endEl) return;
+  startEl.innerHTML='';
+  endEl.innerHTML='';
+  for(let h=0;h<24;h++){
+    const lbl=`${String(h).padStart(2,'0')}:00`;
+    startEl.innerHTML+=`<option value="${h}"${h===schStartHr?' selected':''}>${lbl}</option>`;
+    endEl.innerHTML+=`<option value="${h}"${h===schEndHr?' selected':''}>${lbl}</option>`;
+  }
+}
+
+function rebuildSchedule(){
+  const s=+document.getElementById('sch-start-hr').value;
+  const e=+document.getElementById('sch-end-hr').value;
+  if(e<=s){alert('End time must be after start time.');return;}
+  schStartHr=s; schEndHr=e;
+  // Save to week data
+  getWeek().schRange={s,e};
+  persist();
+  buildSchedule();
+}
 
 // ═══════════════════════════════════════════════════════════
 //  WEEKLY REVIEW
@@ -1887,20 +2087,20 @@ function deleteHistWeek(){
 function endWeekFlow(){ openModal('endweek-modal'); }
 
 function confirmEndWeek(){
-  if(currentWeekOffset!==0){ alert('You can only end the current week.'); return; }
+  if(!isCurrentWeek()){ alert('You can only end the current active week.'); return; }
   const summary=document.getElementById('ew-summary').value;
   const rating=document.getElementById('ew-rating').value;
   const shouldDownload=document.getElementById('ew-download').checked;
 
-  const wKey=getWeekKey(0);
-  const wData=getWeek(0);
+  const wKey=getWeekKey(currentWeekOffset);
+  const wData=getWeek(1);
   const inp=wData.dashInputs||{};
   const hDone=Object.values(wData.habitChecks).reduce((a,arr)=>a+(arr.filter(Boolean).length),0);
   const hTotal=wData.habits.length*7;
 
   const archiveEntry={
     weekKey:wKey,
-    weekLabel:getWeekLabel(0),
+    weekLabel:getWeekLabel(1),
     archivedAt:new Date().toISOString(),
     summary,
     rating,
@@ -1936,16 +2136,15 @@ function confirmEndWeek(){
     a.click();
   }
 
-  // Start new week — initialize next week with same habits
-  const nextKey=getWeekKey(0); // Will be next Monday after page reload
-  // Copy habits template from current week to ensure continuity
+  // Copy habits template forward to the week after next
   const habitsCopy=JSON.parse(JSON.stringify(wData.habits));
-  const newWeek=defaultWeekData();
-  newWeek.habits=habitsCopy;
+  const newWeekKey=getWeekKey(currentWeekOffset+1);
+  if(!weeks[newWeekKey]){
+    const newWeek=defaultWeekData();
+    newWeek.habits=habitsCopy;
+    weeks[newWeekKey]=newWeek;
+  }
 
-  // Force a new week by removing current week from weeks object
-  // and replacing with a "blank" (next week will auto-init on Monday)
-  // We keep current week data in archive and weeks store
   persist();
   closeModal('endweek-modal');
   document.getElementById('ew-summary').value='';
@@ -1993,151 +2192,262 @@ function clearAll(){
 //  GUIDE
 // ═══════════════════════════════════════════════════════════
 const GUIDE_DATA=[
-  {title:'📁 How to Use AETERNA — Getting Started',content:`
-    <h4>Core workflow (daily)</h4>
+  {title:'🚀 Getting Started — AETERNA Overview',content:`
+    <h4>What is AETERNA?</h4>
+    <p>AETERNA is a personal life operating system that runs directly in your browser — no installation, no account, no internet required after the first load. All data is stored privately on your device.</p>
+    <h4>Daily Routine (5 min morning + 5 min evening)</h4>
     <ul>
-      <li><strong>Morning (5 min):</strong> Open Daily Planner, review your MITs, confirm your time blocks.</li>
-      <li><strong>During study (home):</strong> Use Focus Tracker — start a Pomodoro for each block.</li>
-      <li><strong>Evening (5 min):</strong> Check off habits, log mood, update task statuses.</li>
-      <li><strong>Weekly (Sunday, 60 min):</strong> Fill in Dashboard inputs, complete Weekly Review, use "End Week / New Week."</li>
+      <li><strong>Morning (5 min):</strong> Open Daily Planner → review your MITs → confirm time blocks for the day.</li>
+      <li><strong>During home study:</strong> Open Focus Tracker → start a Pomodoro for each study block.</li>
+      <li><strong>Evening (5 min):</strong> Check off habits → log mood → update task statuses.</li>
     </ul>
-    <h4>Week navigation</h4>
-    <p>Use the ‹ › arrows (top-right of each page) to view past weeks. Past week data is read-only — you can view but not edit. Current week is always fully editable.</p>
-    <h4>Data storage</h4>
-    <p>All data saves automatically to your browser's localStorage. It persists between sessions as long as you use the same browser. <strong>Export a backup weekly</strong> using the sidebar button — this is your safety net if you clear browser data or switch devices.</p>
-    <div class="sci">💡 Tip: Bookmark this file in Chrome/Firefox for fast daily access. On mobile: Share → Add to Home Screen</div>
+    <h4>Weekly Routine (Sunday, 60 min)</h4>
+    <ul>
+      <li>Fill in Dashboard metrics (study hours, sleep, mood, phone time…)</li>
+      <li>Complete the Weekly Review (8 reflection prompts)</li>
+      <li>Click "End Week / New Week" → current week is archived to history</li>
+      <li>Export Backup → save the .json file to Google Drive or iCloud</li>
+    </ul>
+    <h4>Navigation</h4>
+    <p>Click any item in the left sidebar to switch pages. On mobile, tap ☰ (top-left) to open the sidebar. Use the ‹ › arrows (top-right of each page) to browse past weeks' data — past weeks are read-only.</p>
+    <div class="sci">💡 Tip: Bookmark this file for fast daily access. On iPhone: Share → Add to Home Screen. On Android: menu ⋮ → Add to Home Screen.</div>
   `},
-  {title:'💾 Storage & Multi-Device Usage',content:`
-    <h4>How data is stored</h4>
-    <p>AETERNA uses your browser's localStorage — a private, offline database stored on your device. No internet connection needed after the first load (fonts load once). No data is sent to any server.</p>
-    <h4>Moving to another device</h4>
+  {title:'💾 Data Storage & Multi-Device Sync',content:`
+    <h4>How is data stored?</h4>
+    <p>AETERNA uses your browser's <strong>localStorage</strong> — a private, offline database on your device. No server, no account, no one else can access it. Data persists between sessions as long as you use the same browser on the same device.</p>
+    <h4>⚠ Important warnings</h4>
+    <ul>
+      <li>Clearing browser cache or site data will erase all AETERNA data</li>
+      <li>Incognito / private mode does not save data between sessions</li>
+      <li>Opening the file in a different browser will not show your existing data</li>
+    </ul>
+    <h4>Manual Backup (recommended every Sunday)</h4>
     <ol>
-      <li>On your current device: Sidebar → <strong>Export Backup</strong> → saves a .json file</li>
-      <li>On new device: open the HTML file in a browser, Sidebar → <strong>Import Backup</strong></li>
+      <li>Sidebar → <strong>⬇ Export Backup</strong> → downloads <code>aeterna-backup-YYYY-MM-DD.json</code></li>
+      <li>Save it to Google Drive / iCloud, named clearly by week</li>
+      <li>To restore: Sidebar → <strong>⬆ Import Backup</strong> → select your .json file</li>
     </ol>
-    <h4>Phone/tablet usage</h4>
-    <p>The interface is fully responsive. On mobile, use the hamburger menu (top-left) to open the sidebar. For best experience on iOS Safari or Android Chrome: tap the Share icon → "Add to Home Screen" — this creates an app-like icon on your home screen.</p>
-    <h4>Weekly backup habit</h4>
-    <p>Export a backup every Sunday after your weekly review. Name the file by week (e.g. aeterna-backup-2026-03-10.json) and store in cloud storage for cross-device access.</p>
-    <div class="sci">⚠ localStorage is browser-specific. Clearing browser data or using private/incognito mode will not retain saved data. Always export backups.</div>
+    <h4>☁ Multi-Device Sync via GitHub Gist</h4>
+    <ol>
+      <li>Create a free GitHub account at github.com</li>
+      <li>Go to Settings → Developer settings → Personal access tokens → generate a token with <strong>gist</strong> scope only</li>
+      <li>Sidebar → ☁ Cloud Sync → paste the token → click <strong>Push to Cloud</strong> (first time creates a Gist and shows its ID)</li>
+      <li>On another device: enter the same token + Gist ID → click <strong>Pull from Cloud</strong></li>
+    </ol>
+    <h4>Hosting on GitHub Pages (access via URL)</h4>
+    <ol>
+      <li>Create a new public GitHub repository</li>
+      <li>Upload aeterna.html and rename it to <code>index.html</code></li>
+      <li>Settings → Pages → Deploy from branch → main / root → Save</li>
+      <li>After 1–2 minutes, access via <code>yourusername.github.io/aeterna</code> from any device</li>
+    </ol>
+    <div class="sci">💡 Golden rule: After each session on Device A → Push. Before starting on Device B → Pull.</div>
   `},
-  {title:'📊 Life Dashboard',content:`
-    <h4>Purpose</h4>
-    <p>The Dashboard aggregates your 8 most important weekly metrics into a single scannable view. The radar chart visualizes 6 life dimensions — any "flattening" indicates an area needing attention.</p>
-    <h4>How to use</h4>
+  {title:'📊 Life Dashboard — Your Weekly Command Center',content:`
+    <h4>What is the Dashboard?</h4>
+    <p>The Dashboard aggregates your 8 most important weekly metrics into a single scannable view. The radar chart visualises 6 life dimensions — any axis that "collapses" is a signal that area needs immediate attention.</p>
+    <h4>How to fill in your metrics every Sunday</h4>
     <ul>
-      <li>Enter real numbers every Sunday from your phone's screen time app, pomodoro log, and sleep tracker.</li>
-      <li>Habit completion rate is calculated automatically from the habit tracker below.</li>
-      <li>Use the ‹ › arrows to view past weeks' dashboards (read-only).</li>
+      <li><strong>Total Study Hours:</strong> School hours (~40h) + home study hours. Target: 55–58h/week.</li>
+      <li><strong>Home Deep Work Hours:</strong> High-quality, distraction-free study at home only (not counting school). Target: 3–3.5h/day ≈ 17h/week.</li>
+      <li><strong>Phone Screen Time:</strong> Pull from Screen Time (iPhone) or Digital Wellbeing (Android) — count entertainment only, not study use. Target: ≤10h/week.</li>
+      <li><strong>Home Pomodoros:</strong> Total Pomodoro sessions completed at home this week. Target: 6–8 sessions/day.</li>
+      <li><strong>Avg Mood:</strong> Average from your Mood Tracker entries, or a self-assessed 1–10. Target: ≥6.5.</li>
+      <li><strong>Avg Sleep:</strong> Average hours of sleep per night. Target: 7–8h.</li>
+      <li><strong>Habits Done / Total:</strong> Ticks completed ÷ total possible ticks. e.g. 5 habits × 7 days = 35 possible; 28 ticked = 80%.</li>
+      <li><strong>Tasks Done / Created:</strong> Tasks marked Done ÷ tasks created this week.</li>
     </ul>
-    <h4>Target calibration (your profile: 8h school)</h4>
-    <ul>
-      <li>Total Study: 55–58h (school 40h + home 17h)</li>
-      <li>Home Deep Work: 3–3.5h/day</li>
-      <li>Phone: ≤10h/week</li>
-      <li>Mood: ≥6.5/10 sustained</li>
-      <li>Sleep: ≥7h (non-negotiable)</li>
-    </ul>
+    <h4>Viewing past weeks</h4>
+    <p>Use the ‹ button (top-right) to navigate to previous weeks' dashboards. Data is read-only — you cannot edit past entries.</p>
     <div class="sci">📚 Newport (2016) Deep Work · Walker (2017) Why We Sleep · Clear (2018) Atomic Habits</div>
   `},
-  {title:'🎯 Goal System',content:`
-    <h4>SMART Goals</h4>
-    <p>Goals are global (not per-week) and persist across all weeks. They represent your medium-to-long term objectives.</p>
+  {title:'🎯 Goal System — SMART Goals',content:`
+    <h4>How the Goal System works</h4>
+    <p>Goals are <strong>global</strong> — they persist across all weeks and are never reset when you start a new week. This is where you store your medium and long-term objectives (1 month to 1 year).</p>
+    <h4>Writing a SMART Goal</h4>
     <ul>
-      <li><strong>Specific:</strong> Name exactly what you will achieve, to what standard</li>
-      <li><strong>Measurable:</strong> Define a quantifiable success indicator</li>
-      <li><strong>Achievable:</strong> Set at the edge of ability — not too easy, not impossible</li>
-      <li><strong>Relevant:</strong> Link to your larger life vision</li>
-      <li><strong>Time-bound:</strong> Assign a concrete deadline</li>
+      <li><strong>Specific:</strong> Describe exactly what you will achieve and to what standard. Not "study better" — but "score 8+ in Math on the end-of-year exam."</li>
+      <li><strong>Measurable:</strong> Define a concrete success indicator. e.g. "Complete 500 Anki flashcards with ≥85% accuracy."</li>
+      <li><strong>Achievable:</strong> Set it at the edge of your ability — challenging but not impossible. The "productive tension" zone.</li>
+      <li><strong>Relevant:</strong> Connect it to your larger direction. Ask: why does this goal matter to my future self?</li>
+      <li><strong>Time-bound:</strong> Assign a hard deadline. No deadline = no urgency = it won't happen.</li>
     </ul>
-    <p>Click "Update" on any goal to adjust progress %. Review during Weekly Review each Sunday.</p>
-    <div class="sci">📚 Locke & Latham (2002) · Gollwitzer (1999) Implementation Intentions</div>
+    <h4>Updating progress</h4>
+    <p>Click <strong>Update</strong> on any goal card to adjust the progress %. Review and update every Sunday as part of your Weekly Review.</p>
+    <div class="sci">📚 Locke & Latham (2002): Specific, challenging goals produce 25–35% higher performance than vague "do your best" goals.</div>
   `},
-  {title:'✅ Task Management',content:`
-    <h4>Eisenhower Matrix</h4>
+  {title:'✅ Task Management — Eisenhower Matrix',content:`
+    <h4>Tasks are per-week</h4>
+    <p>Each week has its own task list. When a new week starts, old tasks stay in history (viewable via ‹ ›) but do <strong>not</strong> carry forward automatically. Deliberately re-add anything still relevant — this forces a conscious prioritisation decision.</p>
+    <h4>The Eisenhower Matrix — how to classify</h4>
     <ul>
-      <li><strong>High:</strong> Urgent + Important — do immediately (deadlines, crises)</li>
-      <li><strong>Medium:</strong> Important, not urgent — schedule in deep work blocks (where your growth lives)</li>
-      <li><strong>Low:</strong> Delegate, defer, or drop</li>
+      <li><strong>⬆ High (Urgent + Important):</strong> Do today. e.g. assignment due tomorrow, exam revision due this week.</li>
+      <li><strong>→ Medium (Important, not urgent):</strong> Schedule into deep work blocks. This is where real growth lives — deep reading, practice problems, project work.</li>
+      <li><strong>⬇ Low:</strong> Do only if time allows, delegate, or drop entirely.</li>
     </ul>
-    <p>Tasks are per-week. You can view past weeks' tasks (read-only) using ‹ ›. Update task status by clicking the dropdown in the Status column. Delete tasks with ✕.</p>
-    <div class="sci">📚 Covey (1989) 7 Habits · Allen (2001) Getting Things Done</div>
-  `},
-  {title:'📅 Weekly Schedule & Daily Planner',content:`
-    <h4>Weekly Schedule</h4>
-    <p>Click any cell to add an event. Click ✕ on any event to delete it. Events are per-week — your schedule can differ week-to-week. Choose from 4 event types (color-coded) for visual clarity.</p>
-    <h4>Daily Planner</h4>
-    <p>Select a date at the top. Set your 1–3 MITs (Most Important Tasks) — research shows that specifying implementation intentions doubles goal completion rates. Default time blocks reflect your 8h school day. Modify and save any day's blocks. They are saved per date and persist.</p>
-    <h4>Circadian scheduling</h4>
-    <p>After school, your second alertness window is ~3:30–5 PM — schedule hardest home tasks here. After 7 PM, use for spaced repetition and lighter review. Guard 10 PM–6 AM sleep window absolutely.</p>
-    <div class="sci">📚 Huberman Lab (2022) · Baumeister (2011) Decision Fatigue</div>
-  `},
-  {title:'⏱️ Focus Tracker (Pomodoro)',content:`
-    <h4>How to use</h4>
+    <h4>Step-by-step usage</h4>
     <ul>
-      <li>Type your task in "Task / Focus Object" before starting</li>
-      <li>Choose mode: 25/5 (weekdays), 50/10 (weekends/high energy), 90/20 (deep flow)</li>
-      <li>Sessions auto-log when timer completes. Manual log for sessions you track separately.</li>
-      <li>Rate focus depth (1–5) in the Focus Quality table</li>
+      <li><strong>Add task:</strong> Fill in the form at the top → click <strong>+ Add Task</strong></li>
+      <li><strong>Update status:</strong> Click the dropdown in the Status column → select To Do / In Progress / Done</li>
+      <li><strong>Delete task:</strong> Click ✕ in the last column</li>
+      <li><strong>Filter view:</strong> Use the filter buttons — All / To Do / In Progress / Done / High Priority</li>
     </ul>
-    <h4>Post-school strategy</h4>
-    <p>After 8h school, limit to 6–8 Pomodoros max. If depth rating drops to 1–2, stop — continuing produces shallow encoding. Take a genuine break (walk, no phone) before the next block.</p>
-    <div class="sci">📚 Cirillo (1987) Pomodoro · Ericsson (1993) Deliberate Practice · Zijlstra (2014)</div>
+    <h4>Task naming tip</h4>
+    <p>Name tasks specifically enough that you know exactly what to do the moment you look at them. Not "Study Physics" — but "Complete 20 exercises from Chapter 4 — Kinematics." Specific names eliminate the activation energy needed to start.</p>
+    <div class="sci">📚 Covey (1989) 7 Habits · Allen (2001) Getting Things Done · Baumeister (2011) on decision fatigue</div>
   `},
-  {title:'⏰ Time Audit',content:`
-    <h4>How to use</h4>
-    <p>Each Sunday, log your actual hours per category from the past week. Use your phone's screen time data, calendar, and Pomodoro log as input sources.</p>
-    <h4>Your target allocation (168h/week)</h4>
+  {title:'📅 Weekly Schedule — Time Grid',content:`
+    <h4>How the Schedule works</h4>
+    <p>A 7-day grid with customisable hour rows. Each week has its own independent schedule — you can set up different layouts for exam weeks, holiday weeks, etc. Browse past weeks with ‹ ›.</p>
+    <h4>Adding an event</h4>
+    <ol>
+      <li>Click any cell in the grid (e.g. Monday, 16:00)</li>
+      <li>A modal appears → type the event name → select type → click <strong>Add Block</strong></li>
+      <li>The event appears in the cell, colour-coded by type</li>
+    </ol>
+    <h4>Deleting an event</h4>
+    <p>Hover over any event block → click the <strong>✕</strong> that appears on the right side of the block.</p>
+    <h4>Customising the displayed hour range</h4>
+    <p>At the top-right of the Schedule page, use the <strong>From / To</strong> dropdowns to set your start and end hours. The grid rebuilds instantly. This setting is saved per week.</p>
+    <h4>The 4 event types</h4>
     <ul>
-      <li>Sleep: 56h (8h × 7) — non-negotiable</li>
-      <li>School: 40h (fixed)</li>
-      <li>Home deep study: 17–20h</li>
-      <li>Exercise: 4–5h</li>
-      <li>Meals/self-care: 10h</li>
-      <li>Social: 6–8h</li>
-      <li>Commute: 5–8h</li>
-      <li>Phone/entertainment: ≤9h</li>
+      <li><strong>School (amber):</strong> School hours, extra classes, tutoring</li>
+      <li><strong>Deep Work (blue):</strong> Focused home study sessions</li>
+      <li><strong>Break / Exercise (green):</strong> Rest, walks, workouts, meals</li>
+      <li><strong>Personal (purple):</strong> Commute, self-care, social, leisure</li>
     </ul>
-    <p>If phone + entertainment exceeds 12h, it is directly eating sleep or study time.</p>
-    <div class="sci">📚 Ariely (2012) The Honest Truth About Dishonesty · Covey (1989)</div>
+    <div class="sci">📚 Newport (2016): "Schedule every minute of your day — what gets scheduled gets done."</div>
+  `},
+  {title:'🗓️ Daily Planner — MIT Method & Time Blocking',content:`
+    <h4>What is the Daily Planner?</h4>
+    <p>A detailed planning tool for individual days — distinct from the Weekly Schedule (which is a high-level overview). Planner data is saved per calendar date and persists indefinitely across weeks.</p>
+    <h4>Evening routine — plan tomorrow (5 min)</h4>
+    <ol>
+      <li>Select tomorrow's date in the date picker at the top</li>
+      <li>Set your <strong>3 MITs</strong> (Most Important Tasks) — the 3 things you absolutely must accomplish tomorrow. Prioritise home deep study tasks here.</li>
+      <li>Write your Morning Intention — what mindset or focus do you need for the day?</li>
+      <li>Review / adjust the Time Blocks for that day → click <strong>Save MITs</strong> and <strong>Save</strong></li>
+    </ol>
+    <h4>Evening routine — reflect on today (5 min)</h4>
+    <ol>
+      <li>Select today's date</li>
+      <li>Fill in Evening Reflection — what did you accomplish? what drained your energy?</li>
+      <li>Adjust the Energy slider to record your energy level for the day</li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+    <h4>Default time blocks (8h school day)</h4>
+    <p>The default blocks are pre-calibrated for an 8h school day + 3–4h home study. Modify any block, add new ones with <strong>+ Add Block</strong>, or reset with <strong>Reset to Default</strong>. Each day's blocks are saved independently.</p>
+    <div class="sci">📚 Gollwitzer (1999): Implementation intentions (specific if-then plans) double goal achievement rates compared to vague intentions.</div>
+  `},
+  {title:'⏱️ Focus Tracker — Pomodoro Timer',content:`
+    <h4>What is the Pomodoro Technique?</h4>
+    <p>A work rhythm of <strong>deep focus → short break → repeat</strong>. Designed to combat distraction, manage mental fatigue, and sustain cognitive quality over long study sessions.</p>
+    <h4>Starting a session — step by step</h4>
+    <ol>
+      <li>Type your task name into "Task / Focus Object" — do this <em>before</em> starting the timer</li>
+      <li>Choose your mode: <strong>25/5</strong> (school days, higher fatigue), <strong>50/10</strong> (weekends or high-energy days), <strong>90/20</strong> (deep flow state)</li>
+      <li>Click <strong>Start</strong></li>
+      <li>Phone face-down, close unnecessary tabs, disable notifications for the duration</li>
+      <li>When the timer ends, the session auto-logs to the table on the right</li>
+    </ol>
+    <h4>Post-school strategy (after 8h of school)</h4>
+    <ul>
+      <li>Cap home sessions at 6–8 Pomodoros maximum</li>
+      <li>If your Focus Depth rating drops to 1–2 consistently: stop immediately — continuing produces shallow encoding, not real learning</li>
+      <li>Between sessions: stand up, walk around, drink water — do not scroll social media</li>
+    </ul>
+    <h4>Focus Quality Log</h4>
+    <p>After each session, rate your focus depth (1–5) and log distractions. Over time, this data reveals which hours of the day you perform best — use it to schedule your hardest tasks at your peak windows.</p>
+    <div class="sci">📚 Cirillo (1987) Pomodoro Technique · Ericsson (1993): Deliberate practice requires full cognitive engagement — not just hours logged.</div>
+  `},
+  {title:'⏰ Time Audit — Where Your Hours Actually Go',content:`
+    <h4>Why do a Time Audit?</h4>
+    <p>Research shows people overestimate their productive time by 40–50%. A weekly audit forces an honest confrontation with reality — and reveals exactly where your 168 hours went.</p>
+    <h4>How to use it (every Sunday)</h4>
+    <ol>
+      <li>Select a category from the dropdown</li>
+      <li>Enter the actual hours spent in that category this week</li>
+      <li>Add a short note (e.g. "Was this intentional or default?")</li>
+      <li>Click <strong>Record</strong></li>
+      <li>Repeat for all categories until total ≈ 168h</li>
+    </ol>
+    <h4>Ideal target allocation (168h/week)</h4>
+    <ul>
+      <li>💤 Sleep: 56h (8h × 7 nights) — non-negotiable foundation</li>
+      <li>🏫 School: 40h (fixed)</li>
+      <li>📚 Home Deep Study: 17–20h (3–4h/day)</li>
+      <li>🏃 Exercise: 4–5h (at least 4 sessions/week)</li>
+      <li>🍽️ Meals / Self-care: 10h</li>
+      <li>👥 Social: 6–8h</li>
+      <li>🚌 Commute: 5–8h</li>
+      <li>📱 Phone / Entertainment: ≤9h (≤1.5h/day)</li>
+    </ul>
+    <p><strong>The golden rule:</strong> If Phone + Entertainment exceeds 12h/week, it is directly eating into your sleep or study time — no exceptions.</p>
+    <div class="sci">📚 Ariely (2012): Humans are systematically overconfident about how productively they spend their time.</div>
   `},
   {title:'🌡️ Mood & Wellbeing Tracker',content:`
-    <h4>How to use</h4>
-    <p>Log daily. Takes 2 minutes. Select mood (1–10 scale), move the stress and energy sliders, enter sleep hours, add notes.</p>
-    <h4>Warning patterns to watch for</h4>
+    <h4>Why track mood daily?</h4>
+    <p>Mood and energy are <em>prerequisites</em> for effective learning — not side effects. Daily tracking lets you detect burnout early and course-correct before performance collapses.</p>
+    <h4>Evening check-in (2 minutes)</h4>
+    <ol>
+      <li>Select today's date</li>
+      <li>Click your Mood score (1–10) — 1 = severely low, 10 = exceptional</li>
+      <li>Adjust the Stress and Energy sliders</li>
+      <li>Enter last night's sleep hours</li>
+      <li>Add a short note about what influenced your mood today</li>
+      <li>Write 3 things you're grateful for in the Gratitude field</li>
+      <li>Click <strong>Save Entry</strong></li>
+    </ol>
+    <h4>Warning patterns — act immediately if you see these</h4>
     <ul>
-      <li>Energy ≤4 for 3+ consecutive days → reduce home study load, prioritize recovery</li>
-      <li>Mood ≤5 sustained → investigate source (sleep? overload? social? nutrition?)</li>
-      <li>Stress ≥8 for 3+ days → implement a recovery day before performance collapses</li>
+      <li><strong>Energy ≤4 for 3+ consecutive days:</strong> Reduce home study load immediately. Prioritise sleep and recovery over output.</li>
+      <li><strong>Mood ≤5 sustained:</strong> Investigate the root cause — sleep deficit? overload? isolation? poor nutrition?</li>
+      <li><strong>Stress ≥8 for 3+ days:</strong> Schedule a deliberate recovery day before your performance crashes entirely.</li>
     </ul>
-    <p>Gratitude journal (3 items): increases subjective wellbeing 25% over 10 weeks (Emmons & McCullough, 2003). Enter in the gratitude field but it doesn't save separately — include in Notes if important.</p>
-    <div class="sci">📚 Watson et al. (1988) PANAS · McEwen (1998) Allostatic Load · Fredrickson (2001)</div>
-  `},
-  {title:'📚 Knowledge Vault',content:`
-    <h4>How to use</h4>
-    <p>Add books, papers, courses, lectures. Update progress % as you go. Write a Feynman-style takeaway in the Key Takeaway field — explain the core idea in simple language as if teaching a younger student.</p>
-    <h4>Same-day review protocol</h4>
-    <ul>
-      <li>Within 2h of school: open notes, write from memory what you learned (active recall), then check</li>
-      <li>Review again: 3 days later → 1 week → 2 weeks → 1 month</li>
-      <li>Use Anki for automated spaced repetition scheduling</li>
-    </ul>
-    <div class="sci">📚 Ebbinghaus (1885) Forgetting Curve · Roediger & Karpicke (2006) · Feynman Technique</div>
+    <h4>Viewing your history</h4>
+    <p>The 7-day trend chart shows Mood / Energy / Stress over time. Click ✕ on any row in the table to delete an incorrect entry.</p>
+    <div class="sci">📚 Watson et al. (1988) PANAS Scale · Emmons & McCullough (2003): Gratitude journaling increases wellbeing by 25% over 10 weeks.</div>
   `},
   {title:'🔄 Weekly Review & End-Week Flow',content:`
-    <h4>Weekly Review (Sunday, 60 min)</h4>
-    <p>Fill in each section of the review honestly. The goal is insight, not performance. Student-specific prompts: Was home study active (recall) or passive (re-reading)? Which subjects were neglected? Was sleep consistent?</p>
-    <h4>End Week / New Week (sidebar button)</h4>
+    <h4>Why is the Weekly Review the most important habit?</h4>
+    <p>The review is the "meta-skill" that ensures you're not just working hard, but working in the right direction. 60 minutes on Sunday can save dozens of misdirected hours during the week ahead.</p>
+    <h4>How to complete the Weekly Review (Sunday, 60 min)</h4>
+    <ol>
+      <li><strong>Wins & Accomplishments:</strong> List everything you achieved this week, however small. Build positive momentum before analysing problems.</li>
+      <li><strong>What Worked Well:</strong> Which strategies, habits, or conditions produced your best output? Replicate these.</li>
+      <li><strong>What Wasted Time:</strong> Which activities consumed hours without delivering real value?</li>
+      <li><strong>What Drained Energy:</strong> Which people, situations, or tasks left you depleted?</li>
+      <li><strong>Next Week Focus:</strong> Your top 3 priorities — specific and measurable, not vague intentions.</li>
+      <li><strong>Habit to Strengthen:</strong> One habit you will deliberately improve next week.</li>
+      <li><strong>Thing to Stop / Reduce:</strong> One behaviour you will consciously minimise.</li>
+      <li><strong>Learning Review:</strong> What needs to go into Anki? What topics require deeper revisiting?</li>
+    </ol>
+    <h4>End Week / New Week — the archive flow</h4>
     <ol>
       <li>Complete the Weekly Review first</li>
-      <li>Enter your Dashboard metrics</li>
-      <li>Click "End Week / New Week" in sidebar</li>
-      <li>Add a 1-sentence week summary and rating</li>
-      <li>Optionally download a .txt week report</li>
-      <li>Confirm — the week is archived to Week History</li>
+      <li>Ensure Dashboard metrics are filled in</li>
+      <li>Click <strong>⟳ End Week / New Week</strong> in the sidebar</li>
+      <li>Add a one-sentence week summary and a rating out of 10</li>
+      <li>Tick "Download report" to save a .txt summary file</li>
+      <li>Click <strong>Archive & Start New Week</strong> to confirm</li>
     </ol>
-    <p>Your habits template carries over to the next week. All other data starts fresh. Past week data is always viewable in Week History.</p>
-    <div class="sci">📚 Allen (2001) GTD · Imai (1986) Kaizen · Ericsson (1993) Deliberate Practice</div>
+    <p>The completed week is saved to <strong>Week History</strong>. Your habits template carries over automatically. The new week starts clean.</p>
+    <div class="sci">📚 Allen (2001) GTD Weekly Review · Imai (1986) Kaizen — continuous improvement through structured, honest reflection.</div>
+  `},
+  {title:'📜 Week History — Your Personal Archive',content:`
+    <h4>What is Week History?</h4>
+    <p>A permanent archive of every week you have closed. Each entry stores the week summary, rating, key metrics, and the full content of the Weekly Review.</p>
+    <h4>Viewing a past week</h4>
+    <ul>
+      <li>Click any week card in the list → a modal opens with the complete record</li>
+      <li><strong>Download Report:</strong> saves a .txt summary of that week</li>
+      <li><strong>Delete:</strong> permanently removes the week from history (cannot be undone)</li>
+    </ul>
+    <h4>Browsing detailed past data</h4>
+    <p>Use the ‹ › arrows at the top-right of the Dashboard, Tasks, Schedule, Time Audit, and Weekly Review pages to navigate to any specific past week. All data is read-only when viewing previous weeks.</p>
+    <h4>Monthly trend analysis</h4>
+    <p>Once a month, read through your last 4–5 week summaries. Ask: Is mood trending up? Is sleep consistent? Is phone time decreasing? This longitudinal view reveals patterns that weekly snapshots miss.</p>
+    <div class="sci">💡 Tip: Re-read your week reports one month later — the perspective shift is a powerful motivator and calibrator.</div>
   `},
 ];
 
@@ -2179,7 +2489,6 @@ function init(){
   buildMoodScale();
   buildGuide();
   renderGoals();
-  renderKnowledge();
 
   // Set today's date in date inputs
   const today=new Date().toISOString().split('T')[0];
@@ -2203,7 +2512,8 @@ function init(){
   loadPlanner();
   updatePomoUI();
   loadSyncUI();
-}
+  initSchTimeSelects();
+  }
 
 
 // ═══════════════════════════════════════════════════════════
@@ -2294,6 +2604,17 @@ async function syncLoad() {
     setSyncStatus(`✗ Pull failed: ${e.message}`, 'var(--red)');
   }
 }
+
+
+// Auto-save note on Ctrl+S
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey||e.metaKey) && e.key==='s') {
+    if (currentNoteId) { e.preventDefault(); saveNote(); }
+  }
+  if (e.key==='Escape') {
+    if (document.getElementById('note-overlay').classList.contains('open')) { closeNote(); }
+  }
+});
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
